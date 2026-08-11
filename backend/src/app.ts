@@ -1,5 +1,6 @@
 import express from "express";
 import path from "path";
+import admin from "./admin";
 
 // 01. Entrance:
 const app = express();
@@ -14,5 +15,6 @@ app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
 
 // 04. Routers
+app.use("/admin", admin);
 
 export default app;

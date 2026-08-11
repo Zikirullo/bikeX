@@ -47,6 +47,7 @@ const bikeSchema = new Schema(
   },
   {
     timestamps: true,
+    collection: "Bikes",
   },
 );
 
