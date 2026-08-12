@@ -20,6 +20,7 @@ const userSchema = new Schema(
     userAuth: {
       type: String,
       enum: Object.values(UserAuth),
+      default: UserAuth.PHONE,
       required: true,
     },
 
