@@ -1,5 +1,6 @@
 import { ObjectId } from "mongoose";
 import { UserAuth, UserStatus, UserType } from "../enums/user.enum";
+import { Request } from "express";
 
 export interface User {
   _id: ObjectId;
@@ -39,4 +40,10 @@ export interface UserUpdateInput {
 export interface LoginInput {
   userNick: string;
   userPassword: string;
+}
+
+export interface ExtendedRequest extends Request {
+  user: User;
+  file: Express.Multer.File;
+  files: Express.Multer.File[];
 }

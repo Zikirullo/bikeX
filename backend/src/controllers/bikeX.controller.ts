@@ -1,8 +1,13 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import { T } from "../libs/types/common";
-import { LoginInput, User, UserInput } from "../libs/types/user";
+import {
+  ExtendedRequest,
+  LoginInput,
+  User,
+  UserInput,
+} from "../libs/types/user";
 import { AUTH_TIMER } from "../libs/config";
-import Errors, { HttpCode } from "../libs/errors";
+import Errors, { HttpCode, Message } from "../libs/errors";
 import UserService from "../models/user.service";
 import { UserType } from "../libs/enums/user.enum";
 import AuthService from "../models/auth.service";
@@ -76,4 +81,69 @@ bikeXController.processLogin = async (req: Request, res: Response) => {
   }
 };
 
+bikeXController.logout = (req: Request, res: Response) => {
+  try {
+    console.log("logout");
+    res.cookie("accessToken", null, { maxAge: 0, httpOnly: true });
+    res.status(HttpCode.OK).json({ logout: true });
+  } catch (err) {
+    console.log("Error, logout ", err);
+    if (err instanceof Errors) res.status(err.code).json(err);
+    else res.status(Errors.standard.code).json(Errors.standard);
+  }
+};
+
+bikeXController.verifyAuth = async (
+  req: ExtendedRequest,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    const token = req.cookies?.["accessToken"];
+    if (!token) throw new Error("no token");
+
+    const user = await authService.verifyAuth(token);
+
+    if (user?.userType === UserType.ADMIN) {
+      req.user = user;
+      next();
+    } else {
+      throw new Error("You're not a store, please leave this page");
+    }
+  } catch (err) {
+    const message = Message.NOT_AUTHENTICATED;
+    res.send(
+      `<script> alert("${message}"); window.location.replace('/admin/login') </script>`,
+    );
+  }
+};
+
+bikeXController.check = async (req: ExtendedRequest, res: Response) => {
+  try {
+    const token =
+      req.cookies?.accessToken ||
+      req.headers.authorization?.replace("Bearer ", "");
+
+    if (!token) {
+      return res.status(401).json({
+        success: false,
+        message: "Not authenticated",
+      });
+    }
+
+    const admin = await authService.verifyAuth(token);
+
+    res.status(200).json({
+      success: true,
+      admin: admin.userType === "ADMIN",
+      userNick: admin.userNick,
+    });
+  } catch (err) {
+    console.log("Error:", err);
+    res.status(401).json({
+      success: false,
+      message: "Invalid or expired token",
+    });
+  }
+};
 export default bikeXController;
