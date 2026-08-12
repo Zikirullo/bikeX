@@ -5,21 +5,21 @@ const userSchema = new Schema(
   {
     userType: {
       type: String,
-      enum: Object.values(UserType),
+      enum: UserType,
       default: UserType.USER,
       required: true,
     },
 
     userStatus: {
       type: String,
-      enum: Object.values(UserStatus),
+      enum: UserStatus,
       default: UserStatus.ACTIVE,
       required: true,
     },
 
     userAuth: {
       type: String,
-      enum: Object.values(UserAuth),
+      enum: UserAuth,
       default: UserAuth.PHONE,
       required: true,
     },

@@ -20,7 +20,7 @@ export interface UserInput {
   userType?: UserType;
   userStatus?: UserStatus;
   userAuth: UserAuth;
-  userPhone?: string;
+  userPhone: string;
   userNick: string;
   userPassword: string;
   userPoints?: number;

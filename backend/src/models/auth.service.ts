@@ -16,12 +16,12 @@ class AuthService {
         payload,
         process.env.SECRET_TOKEN as string,
         {
-          expiresIn: duration, // Different than in the vide0
+          expiresIn: duration,
         },
         (err, token) => {
           if (err) {
             console.log("JWT ERROR:", err);
-            reject(err); // Don't wrap it yet
+            reject(err);
           } else {
             resolve(token as string);
           }
