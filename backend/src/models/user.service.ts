@@ -10,21 +10,26 @@ class UserService {
   constructor() {
     this.UserModel = userModel;
   }
-  //
+
   public async processSignup(input: UserInput): Promise<User> {
     const exist = await this.UserModel.findOne({
       userType: UserType.ADMIN,
     }).exec();
+    console.log("exist", exist);
+
     if (exist) throw new Errors(HttpCode.BAD_REQUEST, Message.CREATED_FAILED);
 
     const salt = await bcrypt.genSalt();
     input.userPassword = await bcrypt.hash(input.userPassword, salt);
 
     try {
+      console.log("INPUT BEFORE CREATE:", input);
       const result = await this.UserModel.create(input);
       result.userPassword = "";
       return result.toJSON();
     } catch (err) {
+      console.log(err);
+
       throw new Errors(HttpCode.BAD_REQUEST, Message.CREATED_FAILED);
     }
   }

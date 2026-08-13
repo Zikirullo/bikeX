@@ -28,6 +28,7 @@ bikeXController.goHome = (req: Request, res: Response) => {
 bikeXController.getSignup = (req: Request, res: Response) => {
   try {
     console.log("getSignup");
+    res.render("signup");
   } catch (err) {
     console.log("Error, getSignup ", err);
   }
@@ -44,6 +45,7 @@ bikeXController.getLogin = (req: Request, res: Response) => {
 bikeXController.processSignup = async (req: Request, res: Response) => {
   try {
     console.log("processSignup");
+    console.log("SIGNUP BODY:", req.body);
     const input: UserInput = req.body;
     input.userType = UserType.ADMIN;
     const result: User = await userService.processSignup(input);
@@ -53,7 +55,8 @@ bikeXController.processSignup = async (req: Request, res: Response) => {
       httpOnly: false,
     });
 
-    res.status(HttpCode.CREATED).json({ user: result, accessToken: token });
+    // res.status(HttpCode.CREATED).json({ user: result, accessToken: token });
+    res.redirect("/admin");
   } catch (err) {
     console.log("Error, processSignup", err);
     if (err instanceof Errors) res.status(err.code).json(err);
