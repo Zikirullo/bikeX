@@ -1,0 +1,49 @@
+<%- include('includes/header') %>
+
+<link rel="stylesheet" type="text/css" href="/css/login.css" />
+
+<body>
+  <div class="login-container">
+    <form action="/admin/login" method="POST">
+      <div class="login-frame" style="width: 400px">
+        <div class="login-top">
+          <span>Login</span>
+          <div>Go back <a href="/admin" style="color: #f97316">Home</a></div>
+          <p>
+            Don't have an account?
+            <a href="/admin/signup" style="color: #f97316">Signup</a>
+          </p>
+        </div>
+
+        <div class="login-input-frame">
+          <div class="login-up-frame">
+            <label>Nickname *</label>
+            <input
+              type="text"
+              name="userNick"
+              class="user-nick"
+              placeholder="Nickname"
+              value=""
+            />
+          </div>
+        </div>
+        <div class="login-input-frame">
+          <div class="login-up-frame">
+            <label>Password *</label>
+            <input
+              type="password"
+              name="userPassword"
+              class="user-password"
+              placeholder="Password"
+              value=""
+            />
+          </div>
+        </div>
+
+        <button class="login-btn btn" name="login" type="submit">Login</button>
+      </div>
+    </form>
+  </div>
+</body>
+
+<%- include('includes/footer') %>

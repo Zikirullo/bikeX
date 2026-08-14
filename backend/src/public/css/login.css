@@ -1,0 +1,101 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: "Barlow", sans-serif;
+}
+
+body {
+  background: #0a0a0a;
+  color: #f5f5f5;
+}
+
+.login-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 40px 16px;
+}
+
+.login-frame {
+  background: #141414;
+  border: 1px solid #222;
+  padding: 32px;
+}
+
+.login-top {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 24px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #222;
+}
+.login-top span {
+  font-family: "Barlow Condensed", sans-serif;
+  font-size: 28px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #f5f5f5;
+}
+.login-top div,
+.login-top p {
+  font-size: 13px;
+  color: #888;
+}
+.login-top a {
+  text-decoration: none;
+}
+.login-top a:hover {
+  text-decoration: underline;
+}
+
+.login-input-frame {
+  margin-bottom: 18px;
+}
+
+.login-up-frame {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.login-up-frame label {
+  font-family: "Barlow Condensed", sans-serif;
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #888;
+}
+.login-up-frame input {
+  background: #1a1a1a;
+  border: 1px solid #222;
+  color: #f5f5f5;
+  font-size: 14px;
+  padding: 10px 12px;
+  outline: none;
+}
+.login-up-frame input::placeholder {
+  color: #444;
+}
+.login-up-frame input:focus {
+  border-color: #f97316;
+}
+
+.login-btn {
+  width: 100%;
+  padding: 13px;
+  background: #f97316;
+  border: none;
+  color: #0a0a0a;
+  font-family: "Barlow Condensed", sans-serif;
+  font-size: 15px;
+  font-weight: 800;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+.login-btn:hover {
+  background: #fb923c;
+}

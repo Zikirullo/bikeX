@@ -5,13 +5,15 @@ const admin = express.Router();
 
 admin.get("/", bikeXController.goHome);
 admin
-  .get("/getSignup", bikeXController.getSignup)
+  .get("/signup", bikeXController.getSignup)
   .post(
     "/signup",
     makeUploader("users").single("userImage"),
     bikeXController.processSignup,
   );
-admin.post("/login", bikeXController.processLogin);
+admin
+  .get("/login", bikeXController.getLogin)
+  .post("/login", bikeXController.processLogin);
 admin.post("/logout", bikeXController.logout);
 admin.get("/check", bikeXController.check);
 admin.get("/verify", bikeXController.verifyAuth);
