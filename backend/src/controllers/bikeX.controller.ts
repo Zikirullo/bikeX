@@ -52,7 +52,7 @@ bikeXController.processSignup = async (req: Request, res: Response) => {
     const token = await authService.createToken(result);
     res.cookie("accessToken", token, {
       maxAge: AUTH_TIMER * 3600 * 1000,
-      httpOnly: false,
+      httpOnly: true,
     });
 
     // res.status(HttpCode.CREATED).json({ user: result, accessToken: token });
@@ -72,7 +72,7 @@ bikeXController.processLogin = async (req: Request, res: Response) => {
       token = await authService.createToken(result);
     res.cookie("accessToken", token, {
       maxAge: AUTH_TIMER * 3600 * 1000,
-      httpOnly: false,
+      httpOnly: true,
     });
 
     // res.status(HttpCode.OK).json({ user: result, accessToken: token });

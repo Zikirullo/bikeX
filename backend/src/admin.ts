@@ -14,7 +14,7 @@ admin
 admin
   .get("/login", bikeXController.getLogin)
   .post("/login", bikeXController.processLogin);
-admin.post("/logout", bikeXController.logout);
+admin.get("/logout", bikeXController.logout);
 admin.get("/check", bikeXController.check);
 admin.get("/verify", bikeXController.verifyAuth);
 
