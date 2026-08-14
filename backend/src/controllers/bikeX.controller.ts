@@ -45,7 +45,6 @@ bikeXController.getLogin = (req: Request, res: Response) => {
 bikeXController.processSignup = async (req: Request, res: Response) => {
   try {
     console.log("processSignup");
-    console.log("SIGNUP BODY:", req.body);
     const input: UserInput = req.body;
     input.userType = UserType.ADMIN;
     const result: User = await userService.processSignup(input);
