@@ -5,7 +5,7 @@ const userSchema = new Schema(
   {
     userType: {
       type: String,
-      enum: UserType,
+      enum: Object.values(UserType),
       default: UserType.USER,
       required: true,
     },

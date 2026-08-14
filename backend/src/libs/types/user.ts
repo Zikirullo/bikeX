@@ -1,9 +1,9 @@
-import { ObjectId } from "mongoose";
+import { ObjectId, Types } from "mongoose";
 import { UserAuth, UserStatus, UserType } from "../enums/user.enum";
 import { Request } from "express";
 
 export interface User {
-  _id: ObjectId;
+  _id: Types.ObjectId;
   userType: UserType;
   UserStatus: UserStatus;
   userAuth: UserAuth;

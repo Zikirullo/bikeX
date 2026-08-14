@@ -1,6 +1,7 @@
 import express from "express";
-import bikeXController from "./controllers/bikeX.controller";
+import bikeXController from "./controllers/store.controller";
 import makeUploader from "./libs/uploads";
+import bikesController from "./controllers/bikes.controller";
 const admin = express.Router();
 
 admin.get("/", bikeXController.goHome);
@@ -17,5 +18,12 @@ admin
 admin.get("/logout", bikeXController.logout);
 admin.get("/check", bikeXController.check);
 admin.get("/verify", bikeXController.verifyAuth);
+
+admin.post(
+  "/create/bike",
+  bikeXController.verifyAuth,
+  makeUploader("bikes").array("bikeImages", 5),
+  bikesController.createNewBike,
+);
 
 export default admin;
