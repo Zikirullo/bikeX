@@ -26,7 +26,11 @@ admin.post(
   makeUploader("bikes").array("bikeImages", 5),
   bikesController.createNewBike,
 );
-
-admin.get("/bikes/all", bikesController.getAllBikes);
+admin.get(
+  "/bikes/all",
+  bikeXController.verifyAuth,
+  bikesController.getAllBikes,
+);
+admin.post("/bike/:id", bikeXController.verifyAuth, bikesController.updateBike);
 
 export default admin;

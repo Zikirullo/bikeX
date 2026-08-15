@@ -49,4 +49,19 @@ bikesController.getAllBikes = async (req: Request, res: Response) => {
   }
 };
 
+bikesController.updateBike = async (req: Request, res: Response) => {
+  try {
+    console.log("updateBike");
+    const id = req.params.id as string;
+
+    const result = await bikeService.updateBike(id, req.body);
+
+    res.status(HttpCode.OK).json({ data: result });
+  } catch (err) {
+    console.log("Error, updateBike", err);
+    if (err instanceof Errors) res.status(err.code).json(err);
+    else res.status(Errors.standard.code).json(Errors.standard);
+  }
+};
+
 export default bikesController;

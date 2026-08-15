@@ -6,6 +6,7 @@ import { MORGAN_FORMAT } from "./libs/config";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import AuthService from "./models/auth.service";
+import { router } from "./router";
 
 const authService = new AuthService();
 
@@ -57,5 +58,6 @@ app.set("view engine", "ejs");
 
 // 04. Routers
 app.use("/admin", admin);
+app.use("/", router);
 
 export default app;
