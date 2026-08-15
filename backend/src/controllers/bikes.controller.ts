@@ -37,4 +37,16 @@ bikesController.createNewBike = async (req: ExtendedRequest, res: Response) => {
   }
 };
 
+bikesController.getAllBikes = async (req: Request, res: Response) => {
+  try {
+    console.log("getAllBikes");
+    const data = await bikeService.getAllBikes();
+    res.render("bikes", { bike: data });
+  } catch (err) {
+    console.log("Error, getAllProducts", err);
+    if (err instanceof Errors) res.status(err.code).json(err);
+    else res.status(Errors.standard.code).json(Errors.standard);
+  }
+};
+
 export default bikesController;

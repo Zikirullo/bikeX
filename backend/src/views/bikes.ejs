@@ -1,0 +1,243 @@
+<%- include('includes/header') %>
+
+<link rel="stylesheet" type="text/css" href="/css/bikes.css" />
+
+<body>
+  <div class="bikes-container">
+    <div class="navigation-menu">
+      <ul class="nav justify-content-center">
+        <li class="nav-item" style="cursor: pointer">
+          <a class="nav-link" href="/admin">Home</a>
+        </li>
+        <li class="nav-item" style="cursor: pointer">
+          <a class="nav-link" href="/admin/user/all">Users</a>
+        </li>
+        <li class="nav-item" style="cursor: pointer">
+          <a class="nav-link active" href="/admin/bike/all">Bikes</a>
+        </li>
+        <li
+          class="nav-item"
+          style="cursor: pointer"
+          onclick="return confirm('Do you want to logout?')"
+        >
+          <a class="nav-link" href="/admin/logout">Logout</a>
+        </li>
+      </ul>
+    </div>
+
+    <div class="bikes-frame">
+      <div class="board">
+        <div class="bikes-table">
+          <span class="new-bike-txt" style="margin-bottom: 30px">
+            BIKE INVENTORY
+          </span>
+          <table class="table table-bordered table-hover">
+            <thead style="background-color: #141414; color: #f5f5f5;"   class="thead-light">
+              <tr class="thead-light">
+                <th scope="col">T/r</th>
+                <th scope="col">Brand</th>
+                <th scope="col">Bike Name</th>
+                <th scope="col">Type</th>
+                <th scope="col">Price</th>
+                <th scope="col">Left Count</th>
+                <th scope="col">Status</th>
+              </tr>
+            </thead>
+            <!--  LOOP BIKES: START  -->
+            <% bike.map(function(value, index) { %>
+            <tbody style="background: #f97316">
+              <td><%= index + 1 %></td>
+              <td><%= value.bikeBrandName %></td>
+              <td><%= value.bikeName %></td>
+              <td><%= value.bikeType %></td>
+              <td><%= value.bikePrice %></td>
+              <td><%= value.bikeLeftCount %></td>
+              <td>
+                <select
+                  class="spec-select new-bike-status"
+                  id="<%= value._id %>"
+                >
+                  <option
+                    value="ACTIVE"
+                    <%= value.bikeStatus === "ACTIVE" ? "selected" : '' %>
+                  >
+                    ACTIVE
+                  </option>
+                  <option
+                    value="SOLD"
+                    <%= value.bikeStatus === "SOLD" ? "selected" : '' %>
+                  >
+                    SOLD
+                  </option>
+                  <option
+                    value="DELETED"
+                    <%= value.bikeStatus === "DELETED" ? "selected" : '' %>
+                  >
+                    DELETED
+                  </option>
+                      <option
+                    value="UNLISTED"
+                    <%= value.bikeStatus === "UNLISTED" ? "selected" : '' %>
+                  >
+                    UNLISTED
+                  </option>
+                </select>
+              </td>
+            </tbody>
+            <% }) %>
+            <!--  LOOP BIKES: END  -->
+          </table>
+          <div
+            class="long-input"
+            style="align-items: flex-end; margin-bottom: 25px"
+          >
+            <button class="btn btn-primary" id="process-btn">New Bike</button>
+          </div>
+        </div>
+
+        <form
+          onsubmit="return validateForm()"
+          action="/admin/create/bike"
+          method="POST"
+          class="bike-container"
+          enctype="multipart/form-data"
+        >
+          <div class="long-input" style="display: flex; align-items: center">
+            <span class="new-bike-txt">NEW BIKE DETAIL</span>
+          </div>
+          <div class="login-input-frame">
+            <div class="long-input">
+              <label>Bike Name</label>
+              <input
+                type="text"
+                placeholder="Name"
+                name="bikeName"
+                class="bike-name"
+              />
+            </div>
+            <input
+              name="bikeStatus"
+              value="UNLISTED"
+              class="bike-status"
+              hidden
+            />
+          </div>
+          <div class="half-input-frame">
+            <div class="half-input">
+              <label>Brand</label>
+              <input
+                type="text"
+                placeholder="Brand"
+                name="bikeBrandName"
+                class="bike-brand-name"
+              />
+            </div>
+            <div class="half-input">
+              <label>Type</label>
+              <select class="bike-type" name="bikeType">
+                <option value="MOUNTAIN" selected>Mountain</option>
+                <option value="ROAD">Road</option>
+                <option value="HYBRID">Hybrid</option>
+                <option value="ELECTRIC">Electric</option>
+                <option value="KIDS">Kids</option>
+                <option value="OTHER">Other</option>
+              </select>
+            </div>
+          </div>
+          <div class="half-input-frame">
+            <div class="half-input">
+              <label>Price</label>
+              <input
+                type="number"
+                placeholder="Price"
+                name="bikePrice"
+                class="bike-price"
+              />
+            </div>
+            <div class="half-input">
+              <label>Left Count</label>
+              <input
+                type="number"
+                placeholder="Count"
+                name="bikeLeftCount"
+                class="bike-left-count"
+              />
+            </div>
+          </div>
+
+          <div class="img-frame">
+            <label>Bike Images</label>
+            <div class="media-frame">
+              <div class="upload-img-box">
+                <img src="/img/cloud.png" class="1" id="image-section-1" />
+                <input
+                  type="file"
+                  id="file"
+                  name="bikeImages"
+                  class="image-one"
+                  required
+                  onchange="priviewFileHandler(this, 1)"
+                />
+              </div>
+              <div class="upload-img-box">
+                <img src="/img/cloud.png" class="2" id="image-section-1" />
+
+                <input
+                  type="file"
+                  id="file"
+                  name="bikeImages"
+                  class="image-two"
+                  onchange="priviewFileHandler(this, 2)"
+                />
+              </div>
+              <div class="upload-img-box">
+                <img src="/img/cloud.png" class="3" id="image-section-1" />
+
+                <input
+                  type="file"
+                  id="file"
+                  name="bikeImages"
+                  class="image-three"
+                  onchange="priviewFileHandler(this, 3)"
+                />
+              </div>
+              <div class="upload-img-box">
+                <img src="/img/cloud.png" class="4" id="image-section-1" />
+
+                <input
+                  type="file"
+                  id="file"
+                  name="bikeImages"
+                  class="image-four"
+                  onchange="priviewFileHandler(this, 4)"
+                />
+              </div>
+              <div class="upload-img-box">
+                <img src="/img/cloud.png" class="5" id="image-section-1" />
+
+                <input
+                  type="file"
+                  id="file"
+                  name="bikeImages"
+                  class="image-five"
+                  onchange="priviewFileHandler(this, 5)"
+                />
+              </div>
+            </div>
+          </div>
+
+          <div class="operation-buttons">
+            <button class="btn btn-danger" id="cancel-btn">Cancel</button>
+            <button type="submit" class="btn btn-primary" id="create-btn">
+              Create
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script type="text/javascript" src="/js/bikes.js"></script>
+</body>
+
+<%- include('includes/footer') %>

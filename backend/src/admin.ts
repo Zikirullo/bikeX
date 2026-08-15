@@ -27,4 +27,6 @@ admin.post(
   bikesController.createNewBike,
 );
 
+admin.get("/bikes/all", bikesController.getAllBikes);
+
 export default admin;
