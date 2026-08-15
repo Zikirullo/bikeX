@@ -2,6 +2,7 @@ import express from "express";
 import bikeXController from "./controllers/store.controller";
 import makeUploader from "./libs/uploads";
 import bikesController from "./controllers/bikes.controller";
+import multer from "multer";
 const admin = express.Router();
 
 admin.get("/", bikeXController.goHome);

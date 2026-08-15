@@ -12,13 +12,16 @@ const authService = new AuthService();
 // 01. Entrance:
 const app = express();
 app.use(express.static(path.join(__dirname, "public")));
-app.use(express.urlencoded({ extended: true }));
 app.use("/uploads", express.static("./uploads"));
-app.use(express.json());
 app.use(cookieParser());
 app.use(cors({ credentials: true, origin: "http://localhost:3010" }));
 app.use(morgan(MORGAN_FORMAT));
 
+// Only parse JSON / urlencoded for non-multipart routes
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+app.use(authViewMiddleware);
 // 02. Tokens:
 
 export async function authViewMiddleware(
@@ -47,7 +50,7 @@ export async function authViewMiddleware(
     next();
   }
 }
-app.use(authViewMiddleware);
+
 // 03. View:
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");

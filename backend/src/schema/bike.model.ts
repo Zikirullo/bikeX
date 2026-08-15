@@ -28,8 +28,8 @@ const bikeSchema = new Schema(
       required: true,
     },
 
-    bikeImage: {
-      type: String,
+    bikeImages: {
+      type: [String],
     },
 
     bikeLeftCount: {

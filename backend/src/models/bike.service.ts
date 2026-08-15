@@ -11,8 +11,6 @@ class BikesService {
 
   public async createNewBike(input: BikeInput): Promise<Bike> {
     try {
-      console.log("input->", input);
-
       return await this.bikeModel.create(input);
     } catch (err) {
       console.log("Error createNewProduct:", err);
