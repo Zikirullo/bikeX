@@ -11,8 +11,8 @@ import {
 } from "../libs/types/user";
 import UserService from "../models/user.service";
 
-export const userController: T = {};
 const authService = new AuthService();
+export const userController: T = {};
 const userService = new UserService();
 
 userController.signup = async (req: Request, res: Response) => {
@@ -27,7 +27,7 @@ userController.signup = async (req: Request, res: Response) => {
       httpOnly: false,
     });
 
-    res.status(HttpCode.CREATED).json({ member: result, accessToken: token });
+    res.status(HttpCode.CREATED).json({ user: result, accessToken: token });
   } catch (err) {
     console.log("Error, signup", err);
     if (err instanceof Errors) res.status(err.code).json(err);
@@ -47,7 +47,7 @@ userController.login = async (req: Request, res: Response) => {
       httpOnly: false,
     });
 
-    res.status(HttpCode.OK).json({ member: result, accessToken: token });
+    res.status(HttpCode.OK).json({ user: result, accessToken: token });
   } catch (err) {
     console.log("Error, login ", err);
     if (err instanceof Errors) res.status(err.code).json(err);
@@ -64,5 +64,69 @@ userController.logout = (req: ExtendedRequest, res: Response) => {
     console.log("Error, logout ", err);
     if (err instanceof Errors) res.status(err.code).json(err);
     else res.status(Errors.standard.code).json(Errors.standard);
+  }
+};
+
+userController.getUsers = async (req: Request, res: Response) => {
+  try {
+    console.log("getUsers");
+    const result = await userService.getUsers();
+
+    res.render("users", { users: result });
+  } catch (err) {
+    console.log("Error, getUsers", err);
+    res.redirect("/admin/login");
+  }
+};
+
+userController.updateUser = async (req: Request, res: Response) => {
+  try {
+    console.log("updateUser");
+    const result = await userService.updateUser(req.body);
+
+    res.status(HttpCode.OK).json({ data: result });
+  } catch (err) {
+    console.log("Error, updateChosenUser", err);
+    if (err instanceof Errors) res.status(err.code).json(err);
+    else res.status(Errors.standard.code).json(Errors.standard);
+  }
+};
+
+// Authentication
+
+userController.verifyUser = async (
+  req: ExtendedRequest,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    console.log("verifyUser");
+
+    const token = req.cookies["accessToken"];
+    if (token) req.user = await authService.verifyAuth(token);
+    if (!req.user)
+      throw new Errors(HttpCode.UNAUTHORIZED, Message.NOT_AUTHENTICATED);
+    next();
+  } catch (err) {
+    console.log("ERROR, verifyAuth", err);
+    if (err instanceof Errors) res.status(err.code).json(err);
+    else res.status(Errors.standard.code).json(Errors.standard);
+  }
+};
+
+userController.retriveUser = async (
+  req: ExtendedRequest,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    console.log("retriveAuth");
+
+    const token = req.cookies["accessToken"];
+    if (token) req.user = await authService.verifyAuth(token);
+    next();
+  } catch (err) {
+    console.log("ERROR, retriveAuth", err);
+    next();
   }
 };

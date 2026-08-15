@@ -138,7 +138,7 @@ bikeXController.check = async (req: ExtendedRequest, res: Response) => {
 
     res.status(200).json({
       success: true,
-      admin: admin.userType === "ADMIN",
+      admin: admin.userType === "ADMIN" ? "ADMIN" : "USER",
       userNick: admin.userNick,
     });
   } catch (err) {

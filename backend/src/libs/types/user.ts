@@ -3,7 +3,7 @@ import { UserAuth, UserStatus, UserType } from "../enums/user.enum";
 import { Request } from "express";
 
 export interface User {
-  _id: Types.ObjectId;
+  _id: ObjectId;
   userType: UserType;
   UserStatus: UserStatus;
   userAuth: UserAuth;
@@ -30,6 +30,8 @@ export interface UserInput {
 }
 
 export interface UserUpdateInput {
+  _id: ObjectId;
+  userStatus?: UserStatus;
   userNick?: string;
   userPassword?: string;
   userPhone?: string;

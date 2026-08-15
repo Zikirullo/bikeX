@@ -1,6 +1,12 @@
+import { shapeIntoMongooseObjectId } from "../libs/config";
 import { UserStatus, UserType } from "../libs/enums/user.enum";
 import Errors, { HttpCode, Message } from "../libs/errors";
-import { LoginInput, User, UserInput } from "../libs/types/user";
+import {
+  LoginInput,
+  User,
+  UserInput,
+  UserUpdateInput,
+} from "../libs/types/user";
 import userModel from "../schema/user.model";
 import * as bcrypt from "bcryptjs";
 
@@ -86,6 +92,32 @@ class UserService {
     }
 
     return await this.UserModel.findById(user._id).lean().exec();
+  }
+
+  public async getUsers(): Promise<User[]> {
+    const result = await this.UserModel.find({
+      userType: UserType.USER,
+    }).exec();
+
+    if (!result) throw new Errors(HttpCode.NOT_FOUND, Message.NO_DATA_FOUND);
+
+    return result;
+  }
+
+  public async updateUser(input: UserUpdateInput): Promise<User> {
+    input._id = shapeIntoMongooseObjectId(input._id);
+    const result = await this.UserModel.findByIdAndUpdate(
+      {
+        _id: input._id,
+      },
+      input,
+      { new: true },
+    ).exec();
+
+    if (!result)
+      throw new Errors(HttpCode.NOT_MODIFIED, Message.UPDATED_FAILED);
+
+    return result;
   }
 }
 export default UserService;
