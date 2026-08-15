@@ -1,0 +1,167 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: "Barlow", sans-serif;
+}
+
+body {
+  background: #0a0a0a;
+  color: #f5f5f5;
+}
+
+.users-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  padding: 40px 16px 80px;
+  min-height: 100vh;
+}
+
+/* ── Nav (matches home/bikes pages) ── */
+.navigation-menu {
+  width: min(960px, 95vw);
+  background: rgba(18, 18, 18, 0.9);
+  border: 1px solid #222;
+  backdrop-filter: blur(12px);
+}
+.navigation-menu .nav {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 12px 16px;
+}
+.navigation-menu .nav-item {
+  list-style: none;
+}
+.navigation-menu .nav-link {
+  display: inline-block;
+  padding: 8px 20px;
+  font-family: "Barlow Condensed", sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: #888;
+  text-decoration: none;
+  border: 1px solid transparent;
+  transition:
+    color 0.15s ease,
+    border-color 0.15s ease,
+    background 0.15s ease;
+}
+.navigation-menu .nav-link:hover {
+  color: #f5f5f5;
+  border-color: #222;
+}
+.navigation-menu .nav-link.active {
+  color: #0a0a0a;
+  background: #f97316;
+  border-color: #f97316;
+}
+
+/* ── Frame ── */
+.users-frame {
+  width: min(960px, 95vw);
+}
+.board {
+  background: #141414;
+  border: 1px solid #222;
+  padding: 28px;
+}
+
+.header-name {
+  display: block;
+  font-family: "Barlow Condensed", sans-serif;
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #f5f5f5;
+}
+
+/* ── Table ── */
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+.table th,
+.table td {
+  padding: 10px 12px;
+  border: 1px solid #222;
+  font-size: 13px;
+}
+.table thead th {
+  background: #1a1a1a;
+  font-family: "Barlow Condensed", sans-serif;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #888;
+  border-bottom: 1px solid #222;
+}
+.table tbody {
+  background: #1a1a1a;
+  color: #f5f5f5;
+}
+.table tbody:hover {
+  background: #202020;
+}
+
+.spec-select {
+  background: #0a0a0a;
+  border: 1px solid #222;
+  color: #f5f5f5;
+  font-size: 12px;
+  padding: 5px 8px;
+}
+.spec-select:focus {
+  border-color: #f97316;
+  outline: none;
+}
+
+/* ── Responsive ── */
+@media (max-width: 768px) {
+  .users-container {
+    padding: 20px 12px 60px;
+  }
+  .navigation-menu .nav {
+    flex-wrap: wrap;
+    gap: 4px;
+  }
+  .navigation-menu .nav-link {
+    padding: 8px 12px;
+    font-size: 12px;
+  }
+  .board {
+    padding: 18px;
+  }
+  .header-name {
+    font-size: 18px;
+  }
+  .user-table {
+    overflow-x: auto;
+  }
+  .table {
+    min-width: 480px;
+  }
+}
+
+@media (max-width: 480px) {
+  .navigation-menu .nav-link {
+    padding: 6px 10px;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+  }
+  .header-name {
+    font-size: 16px;
+  }
+  .table th,
+  .table td {
+    padding: 8px;
+    font-size: 12px;
+  }
+}
