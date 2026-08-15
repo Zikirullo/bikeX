@@ -13,8 +13,17 @@ bikesController.createNewBike = async (req: ExtendedRequest, res: Response) => {
     console.log("createNewBike");
     console.log(req.body);
 
-    if (!req.files?.length)
-      throw new Errors(HttpCode.INTERNAL_SERVER_ERROR, Message.CREATED_FAILED);
+    if (!req.files?.length) {
+      try {
+        console.log(`${req.files} and ${req.file}`);
+      } catch (err) {
+        console.log(err);
+        throw new Errors(
+          HttpCode.INTERNAL_SERVER_ERROR,
+          Message.CREATED_FAILED,
+        );
+      }
+    }
 
     const data: BikeInput = req.body;
     data.bikeImages = req.files?.map((ele) => {
