@@ -3,7 +3,7 @@ import Errors, { HttpCode, Message } from "../libs/errors";
 import { BikeInput } from "../libs/types/bike";
 import { T } from "../libs/types/common";
 import { ExtendedRequest } from "../libs/types/user";
-import BikesService from "../models/bike.service";
+import BikesService from "../models/bikes.service";
 
 const bikeService = new BikesService();
 const bikesController: T = {};

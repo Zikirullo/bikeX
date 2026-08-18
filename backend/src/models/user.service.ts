@@ -119,5 +119,28 @@ class UserService {
 
     return result;
   }
+
+  public async getUserDetail(user: User): Promise<User> {
+    const userId = shapeIntoMongooseObjectId(user._id);
+    const result = await this.UserModel.findOne({
+      _id: userId,
+      userStatus: UserStatus.ACTIVE,
+    }).exec();
+    if (!result) throw new Errors(HttpCode.NOT_FOUND, Message.NO_DATA_FOUND);
+
+    return result;
+  }
+
+  public async update(user: User, input: UserUpdateInput): Promise<User> {
+    const UserId = shapeIntoMongooseObjectId(user._id);
+    const result = await this.UserModel.findOneAndUpdate(
+      { _id: UserId },
+      input,
+      { new: true },
+    ).exec();
+    if (!result)
+      throw new Errors(HttpCode.NOT_MODIFIED, Message.UPDATED_FAILED);
+    return result;
+  }
 }
 export default UserService;

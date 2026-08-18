@@ -1,13 +1,30 @@
 import { shapeIntoMongooseObjectId } from "../libs/config";
+import { UserType } from "../libs/enums/user.enum";
 import Errors, { HttpCode, Message } from "../libs/errors";
 import { Bike, BikeInput, BikeUpdateInput } from "../libs/types/bike";
+import { User } from "../libs/types/user";
 import bikeModel from "../schema/bike.model";
+import userModel from "../schema/user.model";
 
 class BikesService {
   private readonly bikeModel;
+  private readonly UserModel;
 
   constructor() {
     this.bikeModel = bikeModel;
+    this.UserModel = userModel;
+  }
+
+  public async getStore(): Promise<User> {
+    const result = await this.UserModel.findOne({
+      userType: UserType.ADMIN,
+    })
+      .lean()
+      .exec();
+
+    if (!result) throw new Errors(HttpCode.NOT_FOUND, Message.NO_DATA_FOUND);
+
+    return result;
   }
 
   public async createNewBike(input: BikeInput): Promise<Bike> {

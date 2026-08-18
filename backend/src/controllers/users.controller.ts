@@ -8,6 +8,7 @@ import {
   LoginInput,
   User,
   UserInput,
+  UserUpdateInput,
 } from "../libs/types/user";
 import UserService from "../models/user.service";
 
@@ -87,6 +88,34 @@ userController.updateUser = async (req: Request, res: Response) => {
     res.status(HttpCode.OK).json({ data: result });
   } catch (err) {
     console.log("Error, updateChosenUser", err);
+    if (err instanceof Errors) res.status(err.code).json(err);
+    else res.status(Errors.standard.code).json(Errors.standard);
+  }
+};
+
+userController.getUserDetail = async (req: ExtendedRequest, res: Response) => {
+  try {
+    console.log("getUserDetail");
+    const result = await userService.getUserDetail(req.user);
+
+    res.status(HttpCode.OK).json(result);
+  } catch (err) {
+    console.log("Error, getUserDetail ", err);
+    if (err instanceof Errors) res.status(err.code).json(err);
+    else res.status(Errors.standard.code).json(Errors.standard);
+  }
+};
+
+userController.update = async (req: ExtendedRequest, res: Response) => {
+  try {
+    console.log("update");
+    const input: UserUpdateInput = req.body;
+    if (req.file) input.userImage = req.file.path.replace(/\\/, "/");
+    const result = await userService.update(req.user, input);
+
+    res.status(HttpCode.OK).json(result);
+  } catch (err) {
+    console.log("Error, update ", err);
     if (err instanceof Errors) res.status(err.code).json(err);
     else res.status(Errors.standard.code).json(Errors.standard);
   }
