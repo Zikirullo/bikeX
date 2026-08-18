@@ -1,7 +1,14 @@
 import { shapeIntoMongooseObjectId } from "../libs/config";
+import { BikeStatus } from "../libs/enums/bike.enum";
 import { UserType } from "../libs/enums/user.enum";
 import Errors, { HttpCode, Message } from "../libs/errors";
-import { Bike, BikeInput, BikeUpdateInput } from "../libs/types/bike";
+import {
+  Bike,
+  BikeInput,
+  BikeInQuery,
+  BikeUpdateInput,
+} from "../libs/types/bike";
+import { T } from "../libs/types/common";
 import { User } from "../libs/types/user";
 import bikeModel from "../schema/bike.model";
 import userModel from "../schema/user.model";
@@ -13,6 +20,29 @@ class BikesService {
   constructor() {
     this.bikeModel = bikeModel;
     this.UserModel = userModel;
+  }
+
+  public async getBikes(inquery: BikeInQuery): Promise<Bike[]> {
+    const match: T = { bikeStatus: BikeStatus.ACTIVE };
+    if (inquery.bikeType) match.biketype = inquery.bikeType;
+    if (inquery.search) {
+      match.productName = { $regex: new RegExp(inquery.search, "i") };
+    }
+    const sort: T =
+      inquery.order === "bikePrice"
+        ? { [inquery.order]: 1 }
+        : { [inquery.order]: -1 };
+    const result = await this.bikeModel
+      .aggregate([
+        { $match: match },
+        { $sort: sort },
+        { $skip: (inquery.page * 1 - 1) * inquery.limit },
+        { $limit: inquery.limit * 1 },
+      ])
+      .exec();
+
+    if (!result) throw new Errors(HttpCode.NOT_FOUND, Message.NO_DATA_FOUND);
+    return result;
   }
 
   public async getStore(): Promise<User> {

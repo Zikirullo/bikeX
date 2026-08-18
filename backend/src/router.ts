@@ -20,3 +20,4 @@ router.post(
   makeUploader("users").single("userImage"),
   userController.update,
 );
+router.get("/user/top-users", userController.getTopUsers);

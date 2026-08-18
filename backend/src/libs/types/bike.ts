@@ -14,6 +14,14 @@ export interface Bike {
   updatedAt: Date;
 }
 
+export interface BikeInQuery {
+  order: string;
+  page: number;
+  limit: number;
+  bikeType?: BikeType;
+  search?: string;
+}
+
 export interface BikeInput {
   bikeBrandName: string;
   bikeName: string;

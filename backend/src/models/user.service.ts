@@ -142,5 +142,17 @@ class UserService {
       throw new Errors(HttpCode.NOT_MODIFIED, Message.UPDATED_FAILED);
     return result;
   }
+
+  public async getTopUsers(): Promise<User[]> {
+    const result = await this.UserModel.find({
+      userStatus: UserStatus.ACTIVE,
+      userPoints: { $gte: 1 },
+    })
+      .sort({ userPoints: -1 })
+      .limit(4)
+      .exec();
+    if (!result) throw (HttpCode.NOT_FOUND, Message.NO_DATA_FOUND);
+    return result;
+  }
 }
 export default UserService;

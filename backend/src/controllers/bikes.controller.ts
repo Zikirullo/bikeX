@@ -1,12 +1,35 @@
 import { Request, Response } from "express";
 import Errors, { HttpCode, Message } from "../libs/errors";
-import { BikeInput } from "../libs/types/bike";
+import { BikeInput, BikeInQuery } from "../libs/types/bike";
 import { T } from "../libs/types/common";
 import { ExtendedRequest } from "../libs/types/user";
 import BikesService from "../models/bikes.service";
+import { BikeType } from "../libs/enums/bike.enum";
 
 const bikeService = new BikesService();
 const bikesController: T = {};
+
+bikesController.getBikes = async (req: Request, res: Response) => {
+  try {
+    console.log("getBikes");
+    const { order, page, limit, bikeType, search } = req.query;
+    const inquery: BikeInQuery = {
+      order: String(order),
+      page: Number(page),
+      limit: Number(limit),
+    };
+    if (bikeType) inquery.bikeType = bikeType as BikeType;
+    if (search) inquery.search = String(search);
+
+    const result = await bikeService.getBikes(inquery);
+
+    res.status(HttpCode.OK).json(result);
+  } catch (err) {
+    console.log("Error, getBikes", err);
+    if (err instanceof Errors) res.status(err.code).json(err);
+    else res.status(Errors.standard.code).json(Errors.standard);
+  }
+};
 
 bikesController.createNewBike = async (req: ExtendedRequest, res: Response) => {
   try {
