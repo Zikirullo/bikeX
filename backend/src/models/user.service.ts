@@ -154,5 +154,19 @@ class UserService {
     if (!result) throw (HttpCode.NOT_FOUND, Message.NO_DATA_FOUND);
     return result;
   }
+
+  public async addUserPoints(user: User, point: number): Promise<User> {
+    const userId = shapeIntoMongooseObjectId(user._id);
+
+    return await this.UserModel.findOneAndUpdate(
+      {
+        _id: userId,
+        userType: UserType.USER,
+        UserStatus: UserStatus.ACTIVE,
+      },
+      { $inc: { userPoints: point } },
+      { new: true },
+    ).exec();
+  }
 }
 export default UserService;

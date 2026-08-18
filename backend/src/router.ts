@@ -3,6 +3,8 @@ import { userController } from "./controllers/users.controller";
 import storeController from "./controllers/store.controller";
 import makeUploader from "./libs/uploads";
 import bikesController from "./controllers/bikes.controller";
+import orderController from "./controllers/order.controller";
+
 export const router = express.Router();
 
 // User-related
@@ -28,3 +30,18 @@ router.get("/bikes/all", bikesController.getBikes);
 router.get("/bike/:id", userController.retriveUser, bikesController.getBike);
 
 // Order-related
+router.post(
+  "/order/create",
+  userController.verifyUser,
+  orderController.createOrder,
+);
+router.get(
+  "/order/all",
+  userController.verifyUser,
+  orderController.getMyOrders,
+);
+router.post(
+  "/order/update",
+  userController.verifyUser,
+  orderController.updateOrder,
+);
