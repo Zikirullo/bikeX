@@ -1,6 +1,7 @@
 import { shapeIntoMongooseObjectId } from "../libs/config";
 import { BikeStatus } from "../libs/enums/bike.enum";
 import { UserType } from "../libs/enums/user.enum";
+import { ViewGroup } from "../libs/enums/view.enum";
 import Errors, { HttpCode, Message } from "../libs/errors";
 import {
   Bike,
@@ -10,16 +11,21 @@ import {
 } from "../libs/types/bike";
 import { T } from "../libs/types/common";
 import { User } from "../libs/types/user";
+import { ViewInput } from "../libs/types/view";
 import bikeModel from "../schema/bike.model";
 import userModel from "../schema/user.model";
+import ViewService from "./view.service";
+import { ObjectId } from "mongoose";
 
 class BikesService {
   private readonly bikeModel;
   private readonly UserModel;
+  public viewService: ViewService;
 
   constructor() {
     this.bikeModel = bikeModel;
     this.UserModel = userModel;
+    this.viewService = new ViewService();
   }
 
   public async getBikes(inquery: BikeInQuery): Promise<Bike[]> {
@@ -42,6 +48,43 @@ class BikesService {
       .exec();
 
     if (!result) throw new Errors(HttpCode.NOT_FOUND, Message.NO_DATA_FOUND);
+    return result;
+  }
+
+  public async getBike(userId: ObjectId | null, id: string): Promise<Bike> {
+    const bikeId = shapeIntoMongooseObjectId(id);
+    let result = await this.bikeModel
+      .findOne({
+        _id: bikeId,
+        bikeStatus: BikeStatus.ACTIVE,
+      })
+      .exec();
+    if (!result) throw new Errors(HttpCode.NOT_FOUND, Message.NO_DATA_FOUND);
+
+    if (userId) {
+      //Check View log existence
+
+      const input: ViewInput = {
+        userId,
+        viewRefId: bikeId,
+        viewGroup: ViewGroup.BIKE,
+      };
+      const existView = await this.viewService.checkViewExistence(input);
+
+      console.log("exist:", !!existView);
+      if (!existView) {
+        //insert new view log
+        console.log("PLANNING TO INSERT NEW VIEW");
+        await this.viewService.insertMemberView(input);
+
+        //increase counts
+
+        result = await this.bikeModel
+          .findByIdAndUpdate(bikeId, { $inc: { bikeViews: 1 } }, { new: true })
+          .exec();
+      }
+    }
+
     return result;
   }
 

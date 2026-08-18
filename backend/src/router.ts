@@ -2,6 +2,7 @@ import express from "express";
 import { userController } from "./controllers/users.controller";
 import storeController from "./controllers/store.controller";
 import makeUploader from "./libs/uploads";
+import bikesController from "./controllers/bikes.controller";
 export const router = express.Router();
 
 // User-related
@@ -21,3 +22,7 @@ router.post(
   userController.update,
 );
 router.get("/user/top-users", userController.getTopUsers);
+
+// Bikes-related
+router.get("/bikes/all", bikesController.getBikes);
+router.get("/bike/:id", userController.retriveUser, bikesController.getBike);

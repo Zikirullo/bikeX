@@ -44,6 +44,10 @@ const bikeSchema = new Schema(
       min: 0,
       required: true,
     },
+    bikeViews: {
+      type: Number,
+      default: 0,
+    },
   },
   {
     timestamps: true,

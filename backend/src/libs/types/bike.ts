@@ -10,6 +10,7 @@ export interface Bike {
   bikeImage?: string;
   bikeLeftCount: string;
   bikePrice: string;
+  bikeViews: number;
   createdAt: Date;
   updatedAt: Date;
 }
