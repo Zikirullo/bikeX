@@ -32,7 +32,7 @@ class BikesService {
     const match: T = { bikeStatus: BikeStatus.ACTIVE };
     if (inquery.bikeType) match.biketype = inquery.bikeType;
     if (inquery.search) {
-      match.productName = { $regex: new RegExp(inquery.search, "i") };
+      match.bikeName = { $regex: new RegExp(inquery.search, "i") };
     }
     const sort: T =
       inquery.order === "bikePrice"
@@ -104,7 +104,7 @@ class BikesService {
     try {
       return await this.bikeModel.create(input);
     } catch (err) {
-      console.log("Error createNewProduct:", err);
+      console.log("Error createNewBike:", err);
       throw new Errors(HttpCode.BAD_REQUEST, Message.CREATED_FAILED);
     }
   }

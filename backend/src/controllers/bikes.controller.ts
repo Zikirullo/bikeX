@@ -63,7 +63,7 @@ bikesController.createNewBike = async (req: ExtendedRequest, res: Response) => {
 
     await bikeService.createNewBike(data);
     res.send(
-      `<script>alert("The product successfully added!"); window.location.replace("/admin/bikes/all") </script>`,
+      `<script>alert("The bike successfully added!"); window.location.replace("/admin/bikes/all") </script>`,
     );
   } catch (err) {
     console.log("Error, createNewBike", err);
@@ -81,7 +81,7 @@ bikesController.getAllBikes = async (req: Request, res: Response) => {
     const data = await bikeService.getAllBikes();
     res.render("bikes", { bike: data });
   } catch (err) {
-    console.log("Error, getAllProducts", err);
+    console.log("Error, getAllBikes", err);
     if (err instanceof Errors) res.status(err.code).json(err);
     else res.status(Errors.standard.code).json(Errors.standard);
   }

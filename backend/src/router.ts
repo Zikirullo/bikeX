@@ -26,3 +26,5 @@ router.get("/user/top-users", userController.getTopUsers);
 // Bikes-related
 router.get("/bikes/all", bikesController.getBikes);
 router.get("/bike/:id", userController.retriveUser, bikesController.getBike);
+
+// Order-related
