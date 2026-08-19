@@ -1,0 +1,54 @@
+.services-section {
+  width: 100%;
+  background: #000000;
+  padding: 56px 0;
+  border-top: 1px solid #1a1a1a;
+  border-bottom: 1px solid #1a1a1a;
+}
+
+.services-section .services-grid {
+  align-items: stretch;
+}
+
+.services-section .services-grid-item {
+  display: flex;
+}
+
+.services-section .service-card {
+  width: 100%;
+  gap: 14px;
+}
+
+.services-section .service-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: rgba(255, 138, 61, 0.12);
+  color: #ff8a3d;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.services-section .service-icon svg {
+  font-size: 26px;
+}
+
+.services-section .service-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.services-section .service-desc {
+  font-size: 14px;
+  line-height: 1.6;
+  color: #999999;
+  max-width: 280px;
+}
+
+@media (max-width: 600px) {
+  .services-section {
+    padding: 40px 0;
+  }
+}

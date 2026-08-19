@@ -1,0 +1,78 @@
+.category-section {
+  width: 100%;
+  background: #000000;
+  padding: 60px 0 80px;
+}
+
+.category-section .section-title {
+  font-size: 32px;
+  font-weight: 800;
+  color: #ffffff;
+  margin-bottom: 32px;
+}
+
+.category-section .category-grid {
+  align-items: stretch;
+}
+
+.category-section .MuiGrid-item {
+  display: flex;
+}
+
+.category-section .category-card {
+  position: relative;
+  width: 100%;
+  height: 320px;
+  flex-shrink: 0;
+  border-radius: 12px;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.category-section .category-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  transition: transform 0.4s ease;
+}
+
+.category-section .category-card:hover .category-img {
+  transform: scale(1.05);
+}
+
+.category-section .category-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 0) 40%,
+    rgba(0, 0, 0, 0.85) 100%
+  );
+}
+
+.category-section .category-info {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  gap: 2px;
+}
+
+.category-section .category-name {
+  font-size: 20px;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.category-section .category-models {
+  font-size: 14px;
+  color: #cccccc;
+}
+
+@media (max-width: 600px) {
+  .category-section .category-card {
+    height: 220px;
+  }
+}
