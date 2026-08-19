@@ -1,0 +1,82 @@
+.navbar {
+  width: 100%;
+  background: #000000;
+  position: relative;
+  z-index: 10;
+}
+
+.navbar .navbar-container {
+  padding: 18px 0;
+}
+
+.navbar .menu {
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.navbar .brand-logo {
+  height: 24px;
+}
+
+.navbar .links {
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+}
+
+.navbar .nav-pill a {
+  display: inline-block;
+  text-decoration: none;
+  color: #b3b3b3;
+  font-family: var(--font-display);
+  font-size: 15px;
+  font-weight: 500;
+  padding: 8px 18px;
+  border-radius: 24px;
+  border: 1px solid transparent;
+  transition: all 0.2s ease;
+}
+
+.navbar .nav-pill a:hover {
+  color: #ffffff;
+}
+
+.navbar .nav-pill a.active {
+  color: #ffffff;
+  border: 1px solid #3b82f6;
+}
+
+.navbar .actions {
+  flex-direction: row;
+  align-items: center;
+  gap: 20px;
+}
+
+.navbar .cart-icon {
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.navbar .login-button {
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+  padding: 8px 18px;
+  border: 1px solid #333333;
+  border-radius: 24px;
+}
+
+.navbar .login-button:hover {
+  border-color: #ffffff;
+}
+
+.navbar .user-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  cursor: pointer;
+}
