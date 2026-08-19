@@ -3,7 +3,6 @@ import LocalShippingOutlinedIcon from "@mui/icons-material/LocalShippingOutlined
 import ShieldOutlinedIcon from "@mui/icons-material/ShieldOutlined";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import BoltOutlinedIcon from "@mui/icons-material/BoltOutlined";
-import "../../../css/service.css";
 
 const services = [
   {

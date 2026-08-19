@@ -2,7 +2,6 @@ import { Box, Button, Container, Grid, Stack } from "@mui/material";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import StarIcon from "@mui/icons-material/Star";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
-import "../../../css/popularBikes.css";
 
 const bikes = [
   {

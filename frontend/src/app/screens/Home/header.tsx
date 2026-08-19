@@ -1,6 +1,5 @@
 import { Box, Button, Container, Stack } from "@mui/material";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
-import "../../../css/header.css";
 
 export default function Header() {
   return (

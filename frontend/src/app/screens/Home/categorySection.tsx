@@ -1,5 +1,4 @@
 import { Box, Container, Grid, Stack } from "@mui/material";
-import "../../../css/categorySection.css";
 
 const categories = [
   {

@@ -1,6 +1,5 @@
 import { Box, Button, Container, Stack } from "@mui/material";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
-import "../../../css/promotion.css";
 
 export default function PromoBanner() {
   return (
@@ -9,7 +8,7 @@ export default function PromoBanner() {
         <Box className={"promo-card"}>
           <img
             className={"promo-img"}
-            src="/img/promo/ebike-sale.jpg"
+            src="/img/promo.image.jpg"
             alt="Select e-bikes on sale"
           />
           <Box className={"promo-overlay"} />

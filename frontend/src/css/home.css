@@ -1,0 +1,583 @@
+.header {
+  width: 100%;
+  min-height: 780px;
+  background: #000000;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+}
+
+.header .header-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.header .header-bg-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: right center;
+  opacity: 0.9;
+}
+
+.header .header-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    rgba(0, 0, 0, 0.95) 0%,
+    rgba(0, 0, 0, 0.75) 35%,
+    rgba(0, 0, 0, 0.2) 65%,
+    rgba(0, 0, 0, 0.4) 100%
+  );
+}
+
+.header .header-frame {
+  position: relative;
+  z-index: 1;
+  padding: 100px 0;
+  flex-direction: row;
+}
+
+.header-frame .header-image {
+  margin-left: 280px;
+}
+
+.header .detail {
+  max-width: 620px;
+  gap: 20px;
+}
+
+.header .collection-badge {
+  display: inline-block;
+  width: fit-content;
+  color: #ff8a3d;
+  font-family: var(--font-display);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  padding: 6px 16px;
+  border: 1px solid rgba(255, 138, 61, 0.5);
+  border-radius: 20px;
+  background: rgba(255, 138, 61, 0.08);
+}
+
+.header .head-main-txt {
+  font-family: var(--font-display);
+  font-size: 72px;
+  font-weight: 900;
+  line-height: 1.05;
+  color: #ffffff;
+  letter-spacing: -1px;
+}
+
+.header .head-main-txt .accent {
+  color: #ff8a3d;
+}
+
+.header .wel-txt {
+  font-size: 17px;
+  line-height: 1.6;
+  color: #a3a3a3;
+  max-width: 480px;
+  margin-top: 4px;
+}
+
+.header .cta-group {
+  flex-direction: row;
+  align-items: center;
+  gap: 16px;
+  margin-top: 12px;
+}
+
+.header .shop-button {
+  background: #ff8a3d;
+  color: #000000;
+  border-radius: 30px;
+  padding: 14px 28px;
+  font-weight: 700;
+  text-transform: none;
+  font-size: 15px;
+}
+
+.header .shop-button:hover {
+  background: #ff9d5c;
+}
+
+.header .shop-button .arrow-icon {
+  margin-left: 6px;
+  font-size: 18px;
+}
+
+.header .fit-button {
+  color: #ffffff;
+  border-color: #444444;
+  border-radius: 30px;
+  padding: 14px 28px;
+  font-weight: 700;
+  text-transform: none;
+  font-size: 15px;
+}
+
+.header .fit-button:hover {
+  border-color: #ffffff;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.header .stats {
+  flex-direction: row;
+  gap: 40px;
+  margin-top: 32px;
+}
+
+.header .stat-num {
+  font-family: var(--font-display);
+  font-size: 28px;
+  font-weight: 800;
+  color: #ffffff;
+}
+
+.header .stat-label {
+  font-size: 14px;
+  color: #888888;
+  margin-top: 2px;
+}
+
+@media (max-width: 768px) {
+  .header .head-main-txt {
+    font-size: 44px;
+  }
+
+  .header .header-frame {
+    padding: 60px 0;
+  }
+}
+/* Category */
+
+.category-section {
+  width: 100%;
+  background: #000000;
+  padding: 60px 0 80px;
+}
+
+.category-section .section-title {
+  font-size: 32px;
+  font-weight: 800;
+  color: #ffffff;
+  margin-bottom: 32px;
+}
+
+.category-section .category-grid {
+  align-items: stretch;
+}
+
+.category-section .MuiGrid-item {
+  display: flex;
+}
+
+.category-section .category-card {
+  position: relative;
+  width: 100%;
+  height: 320px;
+  flex-shrink: 0;
+  border-radius: 12px;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.category-section .category-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  transition: transform 0.4s ease;
+}
+
+.category-section .category-card:hover .category-img {
+  transform: scale(1.05);
+}
+
+.category-section .category-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 0) 40%,
+    rgba(0, 0, 0, 0.85) 100%
+  );
+}
+
+.category-section .category-info {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  gap: 2px;
+}
+
+.category-section .category-name {
+  font-size: 20px;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.category-section .category-models {
+  font-size: 14px;
+  color: #cccccc;
+}
+
+@media (max-width: 600px) {
+  .category-section .category-card {
+    height: 220px;
+  }
+}
+
+/* Popularbikes */
+.popular-bikes {
+  width: 100%;
+  background: #000000;
+  padding: 20px 0 100px;
+}
+
+.popular-bikes .section-header {
+  flex-direction: row;
+  align-items: flex-end;
+  justify-content: space-between;
+  margin-bottom: 32px;
+}
+
+.popular-bikes .heading-block {
+  gap: 6px;
+}
+
+.popular-bikes .overline {
+  font-family: var(--font-display);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: #ff8a3d;
+}
+
+.popular-bikes .section-title {
+  font-size: 32px;
+  font-weight: 800;
+  color: #ffffff;
+}
+
+.popular-bikes .view-all {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.popular-bikes .view-all .arrow-icon {
+  font-size: 16px;
+}
+
+.popular-bikes .bikes-grid {
+  align-items: stretch;
+}
+
+.popular-bikes .bikes-grid-item {
+  display: flex;
+}
+
+.popular-bikes .bike-card {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  background: #121212;
+  border-radius: 14px;
+  overflow: hidden;
+  border: 1px solid #222222;
+  transition: border-color 0.2s ease;
+}
+
+.popular-bikes .bike-card:hover {
+  border-color: #444444;
+}
+
+.popular-bikes .bike-img-frame {
+  position: relative;
+  width: 100%;
+  height: 200px;
+}
+
+.popular-bikes .bike-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.popular-bikes .bike-tag {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  background: #ff8a3d;
+  color: #000000;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  padding: 5px 10px;
+  border-radius: 6px;
+}
+
+.popular-bikes .favorite-icon {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.55);
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.popular-bikes .bike-details {
+  padding: 16px;
+  gap: 6px;
+}
+
+.popular-bikes .bike-meta {
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.popular-bikes .bike-category {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  color: #ff8a3d;
+}
+
+.popular-bikes .bike-brand {
+  font-size: 12px;
+  color: #888888;
+}
+
+.popular-bikes .bike-name {
+  font-size: 18px;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.popular-bikes .bike-rating {
+  flex-direction: row;
+  align-items: center;
+  gap: 4px;
+}
+
+.popular-bikes .star-icon {
+  color: #ff8a3d;
+  font-size: 16px;
+}
+
+.popular-bikes .rating-num {
+  font-size: 14px;
+  font-weight: 600;
+  color: #ffffff;
+}
+
+.popular-bikes .rating-count {
+  font-size: 13px;
+  color: #888888;
+}
+
+.popular-bikes .bike-footer {
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 8px;
+}
+
+.popular-bikes .bike-price {
+  font-size: 20px;
+  font-weight: 800;
+  color: #ffffff;
+}
+
+.popular-bikes .details-button {
+  color: #ffffff;
+  border-color: #3a3a3a;
+  border-radius: 8px;
+  padding: 6px 14px;
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: none;
+}
+
+.popular-bikes .details-button:hover {
+  border-color: #ffffff;
+  background: rgba(255, 255, 255, 0.05);
+}
+/* Services */
+.services-section {
+  width: 100%;
+  background: #15191c;
+  padding: 56px 0;
+  border-top: 1px solid #1a1a1a;
+  border-bottom: 1px solid #1a1a1a;
+}
+
+.services-section .services-grid {
+  align-items: stretch;
+}
+
+.services-section .services-grid-item {
+  display: flex;
+}
+
+.services-section .service-card {
+  width: 100%;
+  gap: 14px;
+}
+
+.services-section .service-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: rgba(255, 138, 61, 0.12);
+  color: #ff8a3d;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.services-section .service-icon svg {
+  font-size: 26px;
+}
+
+.services-section .service-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.services-section .service-desc {
+  font-size: 14px;
+  line-height: 1.6;
+  color: #999999;
+  max-width: 280px;
+}
+
+@media (max-width: 600px) {
+  .services-section {
+    padding: 40px 0;
+  }
+}
+/* Promotion */
+.promo-banner {
+  width: 100%;
+  background: #000000;
+  padding: 60px 0 80px;
+}
+
+.promo-banner .promo-card {
+  position: relative;
+  width: 100%;
+  min-height: 460px;
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+.promo-banner .promo-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.promo-banner .promo-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    100deg,
+    rgba(0, 0, 0, 0.9) 0%,
+    rgba(0, 0, 0, 0.75) 40%,
+    rgba(0, 0, 0, 0.35) 75%,
+    rgba(0, 0, 0, 0.15) 100%
+  );
+}
+
+.promo-banner .promo-content {
+  position: relative;
+  z-index: 1;
+  height: 100%;
+  max-width: 560px;
+  padding: 64px 56px;
+  gap: 18px;
+  justify-content: center;
+}
+
+.promo-banner .limited-badge {
+  display: inline-block;
+  width: fit-content;
+  background: #ff8a3d;
+  color: #000000;
+  font-family: var(--font-display);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  padding: 6px 16px;
+  border-radius: 20px;
+}
+
+.promo-banner .promo-title {
+  font-size: 44px;
+  font-weight: 800;
+  line-height: 1.15;
+  color: #ffffff;
+  letter-spacing: -0.5px;
+}
+
+.promo-banner .promo-desc {
+  font-size: 16px;
+  line-height: 1.6;
+  color: #cccccc;
+  max-width: 440px;
+}
+
+.promo-banner .promo-button {
+  width: fit-content;
+  background: #ff8a3d;
+  color: #000000;
+  border-radius: 30px;
+  padding: 14px 28px;
+  font-weight: 700;
+  text-transform: none;
+  font-size: 15px;
+  margin-top: 8px;
+}
+
+.promo-banner .promo-button:hover {
+  background: #ff9d5c;
+}
+
+.promo-banner .promo-button .arrow-icon {
+  margin-left: 6px;
+  font-size: 18px;
+}
+
+@media (max-width: 768px) {
+  .promo-banner .promo-content {
+    padding: 40px 28px;
+  }
+
+  .promo-banner .promo-title {
+    font-size: 32px;
+  }
+}
