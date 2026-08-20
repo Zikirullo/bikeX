@@ -3,13 +3,14 @@ import {
   type ThunkAction,
   type Action,
 } from "@reduxjs/toolkit";
+import HomePageReducer from "./app/screens/Home/slice";
 
 export const store = configureStore({
   middleware: (getDefaultMiddleware) =>
     // @ts-ignore
     getDefaultMiddleware().concat(),
   reducer: {
-    //
+    homePage: HomePageReducer,
   },
 });
 
