@@ -8,16 +8,14 @@ import { Container, Stack } from "@mui/material";
 export default function BikesPage() {
   return (
     <div className="bikes-page">
-      <Banner />
-      <div className="bikes-page">
-        <Container>
-          <Stack className={"bikes-toolbar"}>
-            <Search />
-            <Sorting />
-          </Stack>
-          <Bikes />
-        </Container>
-      </div>
+      <Container>
+        <Banner />
+        <Stack className={"bikes-toolbar"}>
+          <Search />
+          <Sorting />
+        </Stack>
+        <Bikes />
+      </Container>
     </div>
   );
 }

@@ -11,7 +11,7 @@ const bikes = [
     rating: 4.8,
     reviews: 214,
     price: "$2,499",
-    image: "/img/bikes/trailblazer-x1.jpg",
+    image: "/img/Cerpe.png",
   },
   {
     tag: null,
