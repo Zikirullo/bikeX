@@ -7,7 +7,6 @@ export interface AppRootState {
 }
 
 export interface HomePageState {
-  category: Bike[];
   popularBikes: Bike[];
 }
 

@@ -6,7 +6,7 @@ export interface Bike {
   bikeName: string;
   bikeStatus: BikeStatus;
   bikeType: BikeType;
-  bikeImage?: string;
+  bikeImages?: string;
   bikeLeftCount: string;
   bikePrice: string;
   bikeViews: number;
