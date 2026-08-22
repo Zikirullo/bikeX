@@ -1,4 +1,3 @@
-import CategorySection from "./categorySection";
 import Header from "./header";
 import PopularBikes from "./popular";
 import PromoBanner from "./promotion";
@@ -11,6 +10,7 @@ import { setPopularBikes } from "./slice";
 import type { Bike } from "../../../lib/types/bike";
 import { useEffect } from "react";
 import BikesService from "../../services/Bikes.service";
+import Banner from "../Bikes/banner";
 
 const actionDispatch = (dispatch: Dispatch) => ({
   setPopularBikes: (data: Bike[]) => dispatch(setPopularBikes(data)),
@@ -35,7 +35,7 @@ export default function HomePage() {
   return (
     <div className="home-page">
       <Header />
-      <CategorySection />
+      <Banner title="Shop by Category" />
       <PopularBikes />
       <ServicesSection />
       <PromoBanner />

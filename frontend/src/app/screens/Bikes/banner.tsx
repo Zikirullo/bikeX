@@ -1,5 +1,4 @@
 import { Box, Container, Stack } from "@mui/material";
-
 const categories = [
   { name: "MOUNTAIN", image: "/img/mountain-bike.png" },
   { name: "ROAD", image: "/img/road-bike.png" },
@@ -7,12 +6,15 @@ const categories = [
   { name: "HYBRID", image: "/img/hybrid-bike.png" },
   { name: "KIDS", image: "/img/kid-bike.png" },
 ];
+interface CategoryTitle {
+  title: string;
+}
 
-export default function BikesBanner() {
+export default function BikesBanner({ title }: CategoryTitle) {
   return (
     <div className="bikes-banner">
       <Container>
-        <Box className={"banner-heading font-display"}>Find Your Ride</Box>
+        <Box className={"banner-heading font-display"}>{title}</Box>
         <Stack className={"bike-row"}>
           {categories.map((category, index) => (
             <Box className={"bike-card"} key={index}>
