@@ -24,4 +24,16 @@ export default class BikesService {
       throw err;
     }
   }
+
+  public async getBike(bikeId: string): Promise<Bike> {
+    try {
+      const url = `${this.path}/bike/${bikeId}`;
+      const result = await axios.get(url, { withCredentials: true });
+
+      return result.data;
+    } catch (err) {
+      console.log("ERROR in getBike", err);
+      throw err;
+    }
+  }
 }

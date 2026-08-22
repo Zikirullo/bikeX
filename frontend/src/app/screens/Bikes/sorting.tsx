@@ -1,21 +1,34 @@
-import { useState } from "react";
 import { MenuItem, Select } from "@mui/material";
 import type { SelectChangeEvent } from "@mui/material";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 
+interface SortingProps {
+  sortBy: string;
+  onSort: (value: string) => void;
+}
+
 const sortOptions = [
-  { value: "featured", label: "Featured" },
-  { value: "price-asc", label: "Price: Low to High" },
-  { value: "price-desc", label: "Price: High to Low" },
-  { value: "rating", label: "Highest Rated" },
-  { value: "newest", label: "Newest" },
+  {
+    value: "createdAt",
+    label: "Newest",
+  },
+  {
+    value: "bikePriceAsc",
+    label: "Price: Low to High",
+  },
+  {
+    value: "bikePriceDesc",
+    label: "Price: High to Low",
+  },
+  {
+    value: "bikeViews",
+    label: "Most Viewed",
+  },
 ];
 
-export default function Sorting() {
-  const [sortBy, setSortBy] = useState("featured");
-
+export default function Sorting({ sortBy, onSort }: SortingProps) {
   const handleChange = (event: SelectChangeEvent) => {
-    setSortBy(event.target.value);
+    onSort(event.target.value);
   };
 
   return (
@@ -25,7 +38,11 @@ export default function Sorting() {
       onChange={handleChange}
       IconComponent={KeyboardArrowDownIcon}
       MenuProps={{
-        slotProps: { paper: { className: "sorting-menu-paper" } },
+        slotProps: {
+          paper: {
+            className: "sorting-menu-paper",
+          },
+        },
       }}
     >
       {sortOptions.map((option) => (

@@ -4,6 +4,7 @@ import {
   type Action,
 } from "@reduxjs/toolkit";
 import HomePageReducer from "./app/screens/Home/slice";
+import BikesPageReducer from "./app/screens/Bikes/slice";
 
 export const store = configureStore({
   middleware: (getDefaultMiddleware) =>
@@ -11,6 +12,7 @@ export const store = configureStore({
     getDefaultMiddleware().concat(),
   reducer: {
     homePage: HomePageReducer,
+    bikesPage: BikesPageReducer,
   },
 });
 
