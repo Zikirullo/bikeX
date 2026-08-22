@@ -29,25 +29,68 @@ class BikesService {
   }
 
   public async getBikes(inquery: BikeInQuery): Promise<Bike[]> {
-    const match: T = { bikeStatus: BikeStatus.ACTIVE };
-    if (inquery.bikeType) match.biketype = inquery.bikeType;
-    if (inquery.search) {
-      match.bikeName = { $regex: new RegExp(inquery.search, "i") };
+    const match: T = {
+      bikeStatus: BikeStatus.ACTIVE,
+    };
+
+    // Bike type filter
+    if (inquery.bikeType) {
+      match.bikeType = inquery.bikeType;
     }
-    const sort: T =
-      inquery.order === "bikePrice"
-        ? { [inquery.order]: 1 }
-        : { [inquery.order]: -1 };
+
+    // Search by name, brand, or type
+    if (inquery.search) {
+      const regex = new RegExp(inquery.search, "i");
+
+      match.$or = [
+        { bikeName: regex },
+        { bikeBrandName: regex },
+        { bikeType: regex },
+      ];
+    }
+
+    // Sorting
+    let sort: T;
+
+    switch (inquery.order) {
+      case "bikePriceAsc":
+        sort = { bikePrice: 1 };
+        break;
+
+      case "bikePriceDesc":
+        sort = { bikePrice: -1 };
+        break;
+
+      case "bikeViews":
+        sort = { bikeViews: -1 };
+        break;
+
+      case "createdAt":
+      default:
+        sort = { createdAt: -1 };
+        break;
+    }
+
     const result = await this.bikeModel
       .aggregate([
         { $match: match },
+
         { $sort: sort },
-        { $skip: (inquery.page * 1 - 1) * inquery.limit },
-        { $limit: inquery.limit * 1 },
+
+        {
+          $skip: (inquery.page - 1) * inquery.limit,
+        },
+
+        {
+          $limit: inquery.limit,
+        },
       ])
       .exec();
 
-    if (!result) throw new Errors(HttpCode.NOT_FOUND, Message.NO_DATA_FOUND);
+    if (!result) {
+      throw new Errors(HttpCode.NOT_FOUND, Message.NO_DATA_FOUND);
+    }
+
     return result;
   }
 

@@ -15,7 +15,7 @@ const app = express();
 app.use(express.static(path.join(__dirname, "public")));
 app.use("/uploads", express.static("./uploads"));
 app.use(cookieParser());
-app.use(cors({ credentials: true, origin: "http://localhost:3010" }));
+app.use(cors({ credentials: true, origin: "http://localhost:5173" }));
 app.use(morgan(MORGAN_FORMAT));
 
 // Only parse JSON / urlencoded for non-multipart routes
