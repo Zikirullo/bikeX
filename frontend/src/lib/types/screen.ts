@@ -4,6 +4,7 @@ import type { User } from "./user";
 export interface AppRootState {
   homePage: HomePageState;
   bikesPage: BikesPageState;
+  auth: AuthState;
 }
 
 export interface HomePageState {
@@ -12,6 +13,11 @@ export interface HomePageState {
 
 export interface BikesPageState {
   store: User | null;
+
   chosenBike: Bike | null;
   bikes: Bike[];
+}
+
+export interface AuthState {
+  user: User | null;
 }

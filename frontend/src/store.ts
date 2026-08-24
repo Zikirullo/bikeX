@@ -5,6 +5,7 @@ import {
 } from "@reduxjs/toolkit";
 import HomePageReducer from "./app/screens/Home/slice";
 import BikesPageReducer from "./app/screens/Bikes/slice";
+import AuthReducer from "./app/screens/auth/auth.slice";
 
 export const store = configureStore({
   middleware: (getDefaultMiddleware) =>
@@ -13,6 +14,7 @@ export const store = configureStore({
   reducer: {
     homePage: HomePageReducer,
     bikesPage: BikesPageReducer,
+    auth: AuthReducer,
   },
 });
 

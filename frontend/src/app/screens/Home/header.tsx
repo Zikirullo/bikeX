@@ -1,7 +1,21 @@
 import { Box, Button, Container, Stack } from "@mui/material";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
+import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { selectIsAuthenticated } from "../auth/suth.selector";
 
 export default function Header() {
+  const isAuthenticated = useSelector(selectIsAuthenticated);
+  const navigate = useNavigate();
+
+  const handleCtaClick = () => {
+    if (isAuthenticated) {
+      navigate("/bikes");
+    } else {
+      navigate("/signup");
+    }
+  };
+
   return (
     <div className="header">
       <Box className={"header-bg"}>
@@ -23,11 +37,13 @@ export default function Header() {
               machine that moves like you do.
             </Box>
             <Stack className={"cta-group"}>
-              <Button variant={"contained"} className={"shop-button"}>
-                Shop Bikes <ArrowForwardIcon className={"arrow-icon"} />
-              </Button>
-              <Button variant={"outlined"} className={"fit-button"}>
-                Find Your Fit
+              <Button
+                variant={"contained"}
+                className={"shop-button"}
+                onClick={handleCtaClick}
+              >
+                {isAuthenticated ? "Shop Bikes" : "Sign Up"}{" "}
+                <ArrowForwardIcon className={"arrow-icon"} />
               </Button>
             </Stack>
             <Stack className={"stats"}>

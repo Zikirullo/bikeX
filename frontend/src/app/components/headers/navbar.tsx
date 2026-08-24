@@ -1,11 +1,37 @@
+import { useState } from "react";
 import { Box, Container, Stack } from "@mui/material";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
+
 import "../../../css/navbar.css";
+import {
+  selectIsAuthenticated,
+  selectUser,
+} from "../../screens/auth/suth.selector";
+import UserService from "../../services/User.service";
+import { clearAuth } from "../../screens/auth/auth.slice";
 
 export default function Navbar() {
-  // TODO: replace with your actual auth context/hook
-  const authMember = "null";
+  const isAuthenticated = useSelector(selectIsAuthenticated);
+  const user = useSelector(selectUser);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  const handleLogout = async () => {
+    try {
+      const userService = new UserService();
+      await userService.logout();
+    } catch (err) {
+      console.log("ERROR in logout", err);
+    } finally {
+      dispatch(clearAuth());
+      setMenuOpen(false);
+      navigate("/");
+    }
+  };
 
   return (
     <div className="navbar">
@@ -33,7 +59,7 @@ export default function Navbar() {
                 Bikes
               </NavLink>
             </Box>
-            {authMember ? (
+            {isAuthenticated ? (
               <Box className={"nav-pill"}>
                 <NavLink
                   to="/orders"
@@ -53,7 +79,7 @@ export default function Navbar() {
                 Help
               </NavLink>
             </Box>
-            {authMember ? (
+            {isAuthenticated ? (
               <Box className={"nav-pill"}>
                 <NavLink
                   to="/profile"
@@ -70,14 +96,34 @@ export default function Navbar() {
             <Box className={"cart-icon"}>
               <ShoppingCartOutlinedIcon />
             </Box>
-            {!authMember ? (
-              <Box className={"login-button"}>Login</Box>
+            {!isAuthenticated ? (
+              <NavLink to="/login" className={"login-button"}>
+                Login
+              </NavLink>
             ) : (
-              <img
-                className="user-avatar"
-                src={"/icons/user.default.png"}
-                aria-haspopup={"true"}
-              />
+              <Box sx={{ position: "relative" }}>
+                <img
+                  className="user-avatar"
+                  src={user?.userImage || "/icons/user.default.png"}
+                  aria-haspopup={"true"}
+                  onClick={() => setMenuOpen((prev) => !prev)}
+                  style={{ cursor: "pointer" }}
+                />
+                {menuOpen && (
+                  <Box className="user-menu">
+                    <NavLink
+                      to="/profile"
+                      className="user-menu-item"
+                      onClick={() => setMenuOpen(false)}
+                    >
+                      Profile
+                    </NavLink>
+                    <Box className="user-menu-item" onClick={handleLogout}>
+                      Log out
+                    </Box>
+                  </Box>
+                )}
+              </Box>
             )}
           </Stack>
         </Stack>
