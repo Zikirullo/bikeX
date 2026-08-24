@@ -14,3 +14,10 @@ body {
 .font-body {
   font-family: var(--font-body);
 }
+
+html,
+body,
+#root {
+  background-color: #0a0a0a;
+  min-height: 100%;
+}
