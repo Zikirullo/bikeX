@@ -1,3 +1,112 @@
+import { useEffect, useMemo, useState } from "react";
+import { Box, CircularProgress, Container, Typography } from "@mui/material";
+
+import { OrderStatus } from "../../../lib/enum/order.enum";
+import type { Order } from "../../../lib/types/order";
+
+import OrderService from "../../services/Order.service";
+import type { OrderTab } from "./OrderStatusTabs";
+import OrderStatusTabs from "./OrderStatusTabs";
+import OrderCard from "./OrderCard";
+import "../../../css/order.css";
+
+const orderService = new OrderService();
+
+const ALL_STATUSES = [
+  OrderStatus.PENDING,
+  OrderStatus.PROCESSING,
+  OrderStatus.COMPLETED,
+  OrderStatus.CANCELLED,
+];
+
 export default function OrdersPage() {
-  return <h1>OrdersPage</h1>;
+  const [orders, setOrders] = useState<Order[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [activeTab, setActiveTab] = useState<OrderTab>("ALL");
+
+  useEffect(() => {
+    let cancelled = false;
+
+    const loadOrders = async () => {
+      setLoading(true);
+      try {
+        const results = await Promise.all(
+          ALL_STATUSES.map((orderStatus) =>
+            orderService.getMyOrders({ page: 1, limit: 100, orderStatus }),
+          ),
+        );
+        if (!cancelled) {
+          const combined = results
+            .flat()
+            .sort(
+              (a, b) =>
+                new Date(b.createdAt).getTime() -
+                new Date(a.createdAt).getTime(),
+            );
+          setOrders(combined);
+        }
+      } catch (err) {
+        console.log("ERROR loading orders", err);
+      } finally {
+        if (!cancelled) setLoading(false);
+      }
+    };
+
+    loadOrders();
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  const counts = useMemo(() => {
+    const base: Record<OrderTab, number> = {
+      ALL: orders.length,
+      [OrderStatus.PENDING]: 0,
+      [OrderStatus.PROCESSING]: 0,
+      [OrderStatus.COMPLETED]: 0,
+      [OrderStatus.CANCELLED]: 0,
+    };
+    orders.forEach((order) => {
+      base[order.orderStatus] += 1;
+    });
+    return base;
+  }, [orders]);
+
+  const filteredOrders = useMemo(() => {
+    if (activeTab === "ALL") return orders;
+    return orders.filter((order) => order.orderStatus === activeTab);
+  }, [orders, activeTab]);
+
+  return (
+    <div className="orders-page">
+      <Container maxWidth="md">
+        <Typography variant="h3" className="orders-title">
+          My Orders
+        </Typography>
+        <Typography className="orders-subtitle">
+          Track deliveries and review your bikeX history.
+        </Typography>
+
+        <OrderStatusTabs
+          active={activeTab}
+          counts={counts}
+          onChange={setActiveTab}
+        />
+
+        {loading ? (
+          <Box className="orders-loading">
+            <CircularProgress />
+          </Box>
+        ) : filteredOrders.length === 0 ? (
+          <Box className="orders-empty">No orders in this category yet.</Box>
+        ) : (
+          <Box className="orders-list">
+            {filteredOrders.map((order) => (
+              <OrderCard key={order._id} order={order} />
+            ))}
+          </Box>
+        )}
+      </Container>
+    </div>
+  );
 }
