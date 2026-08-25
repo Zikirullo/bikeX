@@ -28,8 +28,9 @@ const STATUS_CLASS: Record<OrderStatus, string> = {
 export default function OrderCard({ order }: OrderCardProps) {
   const [expanded, setExpanded] = useState(false);
 
+  // Bike field names confirmed from bikes.tsx/chosenBike.tsx.
   const primaryBike = order.bikeData?.[0] as
-    | { bikeName?: string; bikeBrand?: string; bikeImages?: string }
+    | { bikeName?: string; bikeBrandName?: string; bikeImages?: string }
     | undefined;
 
   const itemCount = order.orderItems?.reduce(
@@ -117,7 +118,7 @@ export default function OrderCard({ order }: OrderCardProps) {
             <Box className="order-detail-item">
               <Typography className="order-detail-label">Brand</Typography>
               <Typography className="order-detail-value">
-                {primaryBike?.bikeBrand ?? "—"}
+                {primaryBike?.bikeBrandName ?? "—"}
               </Typography>
             </Box>
             <Box className="order-detail-item">

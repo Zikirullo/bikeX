@@ -1,18 +1,32 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { Box, Container, Stack, Typography, Button } from "@mui/material";
+import { useDispatch } from "react-redux";
+import {
+  Box,
+  Container,
+  Stack,
+  Typography,
+  Button,
+  IconButton,
+} from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import AddIcon from "@mui/icons-material/Add";
+import RemoveIcon from "@mui/icons-material/Remove";
 
 import BikesService from "../../services/Bikes.service";
 import type { Bike } from "../../../lib/types/bike";
 import { api } from "../../../lib/config";
+import { addItem } from "../../components/Basket/slice";
 
 export default function ChosenBike() {
   const { bikeId } = useParams<{ bikeId: string }>();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const [bike, setBike] = useState<Bike | null>(null);
   const [error, setError] = useState(false);
+  const [quantity, setQuantity] = useState(1);
+  const [added, setAdded] = useState(false);
 
   useEffect(() => {
     if (!bikeId) return;
@@ -53,6 +67,24 @@ export default function ChosenBike() {
   const imagePath = bike.bikeImages
     ? `${api}/${bike.bikeImages}`
     : "/img/bike-placeholder.png";
+
+  const outOfStock = bike.bikeLeftCount <= 0;
+  const maxQty = Math.min(3, bike.bikeLeftCount);
+
+  const handleAddToCart = () => {
+    dispatch(
+      addItem({
+        bikeId: bike._id,
+        bikeName: bike.bikeName,
+        bikeImages: bike.bikeImages,
+        bikePrice: bike.bikePrice,
+        bikeLeftCount: bike.bikeLeftCount,
+        quantity,
+      }),
+    );
+    setAdded(true);
+    setTimeout(() => setAdded(false), 2000);
+  };
 
   return (
     <Container sx={{ pt: 12, pb: 6 }}>
@@ -105,10 +137,54 @@ export default function ChosenBike() {
             ${bike.bikePrice}
           </Typography>
           <Typography sx={{ color: "#888", mb: 3 }}>
-            {bike.bikeLeftCount} left in stock
+            {outOfStock
+              ? "Out of stock"
+              : `${bike.bikeLeftCount} left in stock`}
           </Typography>
+
+          {!outOfStock && (
+            <Stack
+              direction="row"
+              sx={{
+                alignItems: "center",
+                gap: 1.5,
+                mb: 3,
+                border: "1px solid #2a2b30",
+                borderRadius: 5,
+                width: "fit-content",
+                px: 1,
+              }}
+            >
+              <IconButton
+                size="small"
+                sx={{ color: "#fff" }}
+                disabled={quantity <= 1}
+                onClick={() => setQuantity((q) => Math.max(1, q - 1))}
+              >
+                <RemoveIcon fontSize="small" />
+              </IconButton>
+
+              <Typography
+                sx={{ color: "#fff", minWidth: 20, textAlign: "center" }}
+              >
+                {quantity}
+              </Typography>
+
+              <IconButton
+                size="small"
+                sx={{ color: "#fff" }}
+                disabled={quantity >= maxQty}
+                onClick={() => setQuantity((q) => Math.min(maxQty, q + 1))}
+              >
+                <AddIcon fontSize="small" />
+              </IconButton>
+            </Stack>
+          )}
+
           <Button
             variant="contained"
+            disabled={outOfStock}
+            onClick={handleAddToCart}
             sx={{
               bgcolor: "#f97316",
               color: "#000",
@@ -119,7 +195,7 @@ export default function ChosenBike() {
               "&:hover": { bgcolor: "#ea6c0f" },
             }}
           >
-            Add to Cart
+            {outOfStock ? "Out of Stock" : added ? "Added ✓" : "Add to Cart"}
           </Button>
         </Box>
       </Stack>

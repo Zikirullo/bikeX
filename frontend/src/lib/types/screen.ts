@@ -1,3 +1,4 @@
+import type { BasketItem } from "./basket";
 import type { Bike } from "./bike";
 import type { User } from "./user";
 
@@ -5,6 +6,7 @@ export interface AppRootState {
   homePage: HomePageState;
   bikesPage: BikesPageState;
   auth: AuthState;
+  basket: BasketState;
 }
 
 export interface HomePageState {
@@ -21,4 +23,8 @@ export interface BikesPageState {
 export interface AuthState {
   user: User | null;
   initialized: boolean;
+}
+
+export interface BasketState {
+  items: BasketItem[];
 }

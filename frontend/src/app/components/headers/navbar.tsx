@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Box, Container, Stack } from "@mui/material";
+import { Badge, Box, Container, Stack } from "@mui/material";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
@@ -9,16 +9,21 @@ import {
   selectIsAuthenticated,
   selectUser,
 } from "../../screens/auth/suth.selector";
+
 import UserService from "../../services/User.service";
 import { clearAuth } from "../../screens/auth/auth.slice";
+import { selectBasketCount } from "../Basket/selector";
+import Basket from "../Basket/Basket";
 
 export default function Navbar() {
   const isAuthenticated = useSelector(selectIsAuthenticated);
   const user = useSelector(selectUser);
+  const basketCount = useSelector(selectBasketCount);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const [menuOpen, setMenuOpen] = useState(false);
+  const [basketOpen, setBasketOpen] = useState(false);
 
   const handleLogout = async () => {
     try {
@@ -93,8 +98,14 @@ export default function Navbar() {
             ) : null}
           </Stack>
           <Stack className="actions">
-            <Box className={"cart-icon"}>
-              <ShoppingCartOutlinedIcon />
+            <Box
+              className={"cart-icon"}
+              onClick={() => setBasketOpen(true)}
+              sx={{ cursor: "pointer" }}
+            >
+              <Badge badgeContent={basketCount} color="warning">
+                <ShoppingCartOutlinedIcon />
+              </Badge>
             </Box>
             {!isAuthenticated ? (
               <NavLink to="/login" className={"login-button"}>
@@ -128,6 +139,8 @@ export default function Navbar() {
           </Stack>
         </Stack>
       </Container>
+
+      <Basket open={basketOpen} onClose={() => setBasketOpen(false)} />
     </div>
   );
 }

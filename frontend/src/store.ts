@@ -6,6 +6,7 @@ import {
 import HomePageReducer from "./app/screens/Home/slice";
 import BikesPageReducer from "./app/screens/Bikes/slice";
 import AuthReducer from "./app/screens/auth/auth.slice";
+import BasketReducer from "./app/components/Basket/slice";
 
 export const store = configureStore({
   middleware: (getDefaultMiddleware) =>
@@ -15,6 +16,7 @@ export const store = configureStore({
     homePage: HomePageReducer,
     bikesPage: BikesPageReducer,
     auth: AuthReducer,
+    basket: BasketReducer,
   },
 });
 

@@ -7,8 +7,8 @@ export interface Bike {
   bikeStatus: BikeStatus;
   bikeType: BikeType;
   bikeImages?: string;
-  bikeLeftCount: string;
-  bikePrice: string;
+  bikeLeftCount: number;
+  bikePrice: number;
   bikeViews: number;
   createdAt: Date;
   updatedAt: Date;
