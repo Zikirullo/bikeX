@@ -1,6 +1,11 @@
 import axios from "axios";
 import { api } from "../../lib/config";
-import type { LoginInput, User, UserInput } from "../../lib/types/user";
+import type {
+  LoginInput,
+  User,
+  UserInput,
+  UserUpdateInput,
+} from "../../lib/types/user";
 
 export default class UserService {
   private readonly path: string;
@@ -51,6 +56,66 @@ export default class UserService {
       localStorage.removeItem("userdata");
     } catch (err) {
       console.log("ERROR in logout", err);
+      throw err;
+    }
+  }
+
+  public async getUserDetail(): Promise<User> {
+    try {
+      const url = this.path + "/user/detail";
+      const result = await axios.get(url, { withCredentials: true });
+
+      const user: User = result.data;
+      localStorage.setItem("userdata", JSON.stringify(user));
+
+      return user;
+    } catch (err) {
+      console.log("ERROR in getUserDetail", err);
+      throw err;
+    }
+  }
+
+  public async update(input: UserUpdateInput): Promise<User> {
+    try {
+      const formData = new FormData();
+      formData.append("userNick", input.userNick || "");
+      formData.append("userPhone", input.userPhone || "");
+      formData.append("userDesc", input.userDesc || "");
+      if (input.userPassword) {
+        formData.append("userPassword", input.userPassword);
+      }
+      if (input.userImage) {
+        formData.append("userImage", input.userImage);
+      }
+
+      const result = await axios(`${this.path}/user/update`, {
+        method: "POST",
+        data: formData,
+        withCredentials: true,
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+      console.log("result =>", result);
+
+      const user: User = result.data.user;
+      localStorage.setItem("userdata", JSON.stringify(user));
+
+      return user;
+    } catch (err) {
+      console.log("ERROR in update", err);
+      throw err;
+    }
+  }
+
+  public async getTopUsers(): Promise<User[]> {
+    try {
+      const url = this.path + "/user/top-users";
+      const result = await axios.get(url);
+
+      return result.data;
+    } catch (err) {
+      console.log("ERROR in getTopUsers", err);
       throw err;
     }
   }
