@@ -6,3 +6,6 @@ export const selectUser = (state: AppRootState) => state.auth.user;
 
 export const selectIsAuthenticated = (state: AppRootState) =>
   Boolean(state.auth.user);
+
+export const selectAuthInitialized = (state: AppRootState) =>
+  state.auth.initialized;

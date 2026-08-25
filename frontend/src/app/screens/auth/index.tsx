@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 
 import type { User } from "../../../lib/types/user";
-import { setAuth } from "./auth.slice";
+import { setAuth, clearAuth } from "./auth.slice";
 
 export default function AuthInit() {
   const dispatch = useDispatch();
@@ -16,7 +16,10 @@ export default function AuthInit() {
       } catch (err) {
         console.log("ERROR parsing stored userdata", err);
         localStorage.removeItem("userdata");
+        dispatch(clearAuth());
       }
+    } else {
+      dispatch(clearAuth());
     }
   }, [dispatch]);
 

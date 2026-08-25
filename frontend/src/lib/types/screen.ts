@@ -20,4 +20,5 @@ export interface BikesPageState {
 
 export interface AuthState {
   user: User | null;
+  initialized: boolean;
 }

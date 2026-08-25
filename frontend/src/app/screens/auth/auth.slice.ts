@@ -4,6 +4,7 @@ import type { User } from "../../../lib/types/user";
 
 const initialState: AuthState = {
   user: null,
+  initialized: false,
 };
 
 const authSlice = createSlice({
@@ -13,10 +14,12 @@ const authSlice = createSlice({
   reducers: {
     setAuth: (state, action: PayloadAction<{ user: User }>) => {
       state.user = action.payload.user;
+      state.initialized = true;
     },
 
     clearAuth: (state) => {
       state.user = null;
+      state.initialized = true;
     },
   },
 });

@@ -6,8 +6,6 @@ import { OrderStatus } from "../../../lib/enum/order.enum";
 import type { Order } from "../../../lib/types/order";
 import type { User } from "../../../lib/types/user";
 
-// NOTE: adjust these two import paths to wherever your auth slice/selector
-// actually live in the project — they were not part of the uploaded files.
 import { setAuth } from "../auth/auth.slice";
 import { selectUser } from "../auth/suth.selector";
 
