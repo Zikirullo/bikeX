@@ -9,6 +9,7 @@ import {
 } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import type { User } from "../../../lib/types/user";
+import { getImagePath } from "../../../lib/config";
 
 interface ProfileHeaderProps {
   user: User;
@@ -17,6 +18,10 @@ interface ProfileHeaderProps {
 
 export default function ProfileHeader({ user, onEdit }: ProfileHeaderProps) {
   const memberSince = new Date(user.createdAt).getFullYear();
+  const imagePath = getImagePath(
+    user.userImage,
+    "/img/profile-placeholder.png",
+  );
 
   return (
     <Card className="profile-header-card">
@@ -25,7 +30,7 @@ export default function ProfileHeader({ user, onEdit }: ProfileHeaderProps) {
         className="profile-header-stack"
       >
         <Avatar
-          src={user.userImage}
+          src={imagePath}
           alt={user.userNick}
           className="profile-header-avatar"
         />

@@ -1,73 +1,135 @@
-import { Container, Stack } from "@mui/material";
+import { useCallback, useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Box, CircularProgress, Container, Stack } from "@mui/material";
 
-import { UserType } from "../../../lib/enum/user.enum";
+import { OrderStatus } from "../../../lib/enum/order.enum";
+import type { Order } from "../../../lib/types/order";
 import type { User } from "../../../lib/types/user";
-import type { WishlistItem } from "./Wishlist";
+
+// NOTE: adjust these two import paths to wherever your auth slice/selector
+// actually live in the project — they were not part of the uploaded files.
+import { setAuth } from "../auth/auth.slice";
+import { selectUser } from "../auth/suth.selector";
+
 import ProfileHeader from "./ProfileHeader";
 import ProfileStats from "./ProfileStats";
 import PersonalInfo from "./PersonalInfo";
-import Wishlist from "./Wishlist";
+
 import "../../../css/profile.css";
+import UserService from "../../services/User.service";
+import OrderService from "../../services/Order.service";
+import EditProfileDialog from "./EditProfileDialog";
 
-// STATIC placeholder user — replace with real selector later
-const staticUser: User = {
-  _id: "static-id",
-  userType: UserType.USER,
-  UserStatus: "ACTIVE" as any,
-  userAuth: "PHONE" as any,
-  userPhone: "+1 (720) 555-0142",
-  userNick: "Marcus Reyes",
-  userPoints: "1250",
-  userImage:
-    "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=200&h=200&fit=crop&auto=format&q=80",
-  userDesc: "",
-  createdAt: new Date("2023-04-12"),
-  updatedAt: new Date(),
-};
+const userService = new UserService();
+const orderService = new OrderService();
 
-// STATIC placeholder stats — no Order/Wishlist type yet, wire up later
-const stats = [
-  { label: "Total Orders", value: "5" },
-  { label: "Delivered", value: "3" },
-  { label: "Money Spend", value: `$${staticUser.userPoints ?? "0"}` },
-  { label: "Wishlist", value: "2" },
-];
-
-// STATIC placeholder wishlist — replace with real Bike-based selector later
-const wishlistItems: WishlistItem[] = [
-  {
-    id: "w1",
-    name: "Velocity R7",
-    brand: "Specialized",
-    price: "2,899",
-    image:
-      "https://images.unsplash.com/photo-1534787238916-9ba6764efd4f?w=200&h=200&fit=crop&auto=format&q=80",
-  },
-  {
-    id: "w2",
-    name: "Surge E-MTB",
-    brand: "Specialized",
-    price: "5,499",
-    image:
-      "https://images.unsplash.com/photo-1620802090791-fd9420668913?w=200&h=200&fit=crop&auto=format&q=80",
-  },
+const ALL_STATUSES = [
+  OrderStatus.PENDING,
+  OrderStatus.PROCESSING,
+  OrderStatus.COMPLETED,
+  OrderStatus.CANCELLED,
 ];
 
 export default function ProfilePage() {
+  const dispatch = useDispatch();
+  const user = useSelector(selectUser);
+
+  const [orders, setOrders] = useState<Order[]>([]);
+  const [ordersLoading, setOrdersLoading] = useState(true);
+  const [editOpen, setEditOpen] = useState(false);
+
+  const refreshUser = useCallback(async () => {
+    try {
+      const freshUser = await userService.getUserDetail();
+      dispatch(setAuth({ user: freshUser }));
+    } catch (err) {
+      console.log("ERROR refreshing user", err);
+    }
+  }, [dispatch]);
+
+  const loadOrders = useCallback(async () => {
+    setOrdersLoading(true);
+    try {
+      const results = await Promise.all(
+        ALL_STATUSES.map((orderStatus) =>
+          orderService.getMyOrders({ page: 1, limit: 100, orderStatus }),
+        ),
+      );
+      setOrders(results.flat());
+    } catch (err) {
+      console.log("ERROR loading orders", err);
+    } finally {
+      setOrdersLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    refreshUser();
+    loadOrders();
+  }, [refreshUser, loadOrders]);
+
+  const handleProfileSaved = (updated: User) => {
+    dispatch(setAuth({ user: updated }));
+    setEditOpen(false);
+  };
+
+  if (!user) {
+    return (
+      <Container maxWidth="lg">
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            minHeight: "40vh",
+          }}
+        >
+          <CircularProgress />
+        </Box>
+      </Container>
+    );
+  }
+
+  const delivered = orders.filter(
+    (order) => order.orderStatus === OrderStatus.COMPLETED,
+  );
+  const moneySpent = delivered.reduce(
+    (sum, order) => sum + order.orderTotal,
+    0,
+  );
+
+  const stats = [
+    { label: "Total Orders", value: String(orders.length) },
+    { label: "Delivered", value: String(delivered.length) },
+    { label: "Money Spent", value: `$${moneySpent.toLocaleString()}` },
+  ];
+
   return (
     <div className="profile-page">
       <Container maxWidth="lg">
-        <ProfileHeader user={staticUser} />
-        <ProfileStats stats={stats} />
+        <ProfileHeader user={user} onEdit={() => setEditOpen(true)} />
+
+        {ordersLoading ? (
+          <Box sx={{ display: "flex", justifyContent: "center", py: 4 }}>
+            <CircularProgress size={28} />
+          </Box>
+        ) : (
+          <ProfileStats stats={stats} />
+        )}
 
         <Stack
           direction={{ xs: "column", lg: "row" }}
           className="profile-info-row"
         >
-          <PersonalInfo user={staticUser} />
+          <PersonalInfo user={user} />
         </Stack>
 
-        <Wishlist items={wishlistItems} />
+        <EditProfileDialog
+          open={editOpen}
+          user={user}
+          onClose={() => setEditOpen(false)}
+          onSaved={handleProfileSaved}
+        />
       </Container>
     </div>
   );
