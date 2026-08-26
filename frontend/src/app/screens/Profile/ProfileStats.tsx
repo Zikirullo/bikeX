@@ -14,7 +14,7 @@ export default function ProfileStats({ stats }: ProfileStatsProps) {
     <Stack direction="row" className="profile-stats-row">
       {stats.map((stat) => (
         <Card key={stat.label} className="profile-stat-card">
-          <Typography variant="h4" className="profile-stat-value">
+          <Typography variant="h4" className="profile-stat-value font-display">
             {stat.value}
           </Typography>
           <Typography className="profile-stat-label">{stat.label}</Typography>

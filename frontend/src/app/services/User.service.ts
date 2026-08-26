@@ -75,30 +75,32 @@ export default class UserService {
     }
   }
 
-  public async update(input: UserUpdateInput): Promise<User> {
+  // imageFile is a real File from an <input type="file">, kept separate
+  // from UserUpdateInput.userImage (which stays the stored string path)
+  // since the backend's multer route needs an actual file, not a path.
+  public async update(input: UserUpdateInput, imageFile?: File): Promise<User> {
     try {
       const formData = new FormData();
       formData.append("userNick", input.userNick || "");
       formData.append("userPhone", input.userPhone || "");
-      formData.append("userDesc", input.userDesc || "");
       if (input.userPassword) {
         formData.append("userPassword", input.userPassword);
       }
-      if (input.userImage) {
-        formData.append("userImage", input.userImage);
+      if (imageFile) {
+        formData.append("userImage", imageFile);
       }
 
-      const result = await axios(`${this.path}/user/update`, {
-        method: "POST",
-        data: formData,
+      const result = await axios.post(`${this.path}/user/update`, formData, {
         withCredentials: true,
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
       });
-      console.log("result =>", result);
 
-      const user: User = result.data.user;
+      // Extract user object safely (res.status().json(result) maps directly to result.data)
+      const user: User = result.data?.user || result.data?.data || result.data;
+
+      if (!user || typeof user !== "object") {
+        throw new Error("Invalid user response from server update.");
+      }
+
       localStorage.setItem("userdata", JSON.stringify(user));
 
       return user;

@@ -1,14 +1,18 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import {
   Avatar,
+  Box,
   Button,
   Dialog,
   DialogActions,
   DialogContent,
   DialogTitle,
+  IconButton,
   Stack,
   TextField,
+  Typography,
 } from "@mui/material";
+import PhotoCameraIcon from "@mui/icons-material/PhotoCamera";
 import type { User, UserUpdateInput } from "../../../lib/types/user";
 import UserService from "../../services/User.service";
 import { getImagePath } from "../../../lib/config";
@@ -28,11 +32,29 @@ export default function EditProfileDialog({
   onClose,
   onSaved,
 }: EditProfileDialogProps) {
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
   const [userNick, setUserNick] = useState(user.userNick);
   const [userPhone, setUserPhone] = useState(user.userPhone);
-  const [userDesc, setUserDesc] = useState(user.userDesc ?? "");
+  const [imageFile, setImageFile] = useState<File | null>(null);
+  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  const avatarSrc =
+    previewUrl ?? getImagePath(user.userImage, "/img/profile-placeholder.png");
+
+  const handlePickImage = () => {
+    fileInputRef.current?.click();
+  };
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setImageFile(file);
+    setPreviewUrl(URL.createObjectURL(file));
+  };
 
   const handleSave = async () => {
     setSaving(true);
@@ -42,10 +64,11 @@ export default function EditProfileDialog({
         _id: user._id,
         userNick,
         userPhone,
-        userDesc,
         userImage: user.userImage,
       };
-      const updated = await userService.update(input);
+      // imageFile is only sent if the person actually picked a new one —
+      // the backend keeps the existing stored image otherwise.
+      const updated = await userService.update(input, imageFile ?? undefined);
       onSaved(updated);
     } catch (err) {
       console.log("ERROR updating profile", err);
@@ -56,14 +79,43 @@ export default function EditProfileDialog({
   };
 
   return (
-    <Dialog open={open} onClose={onClose} fullWidth maxWidth="sm">
-      <DialogTitle>Edit Profile</DialogTitle>
+    <Dialog
+      open={open}
+      onClose={onClose}
+      fullWidth
+      maxWidth="sm"
+      className="edit-profile-dialog"
+    >
+      <DialogTitle className="edit-profile-title font-display">
+        Edit Profile
+      </DialogTitle>
       <DialogContent>
-        <Stack spacing={2} sx={{ pt: 1 }}>
-          <Avatar
-            src={getImagePath(user.userImage, "/img/profile-placeholder.png")}
-            sx={{ width: 72, height: 72 }}
-          />
+        <Stack spacing={2.5} sx={{ pt: 1 }}>
+          <Box sx={{ display: "flex", justifyContent: "center" }}>
+            <Box sx={{ position: "relative", width: 88, height: 88 }}>
+              <Avatar
+                src={avatarSrc}
+                sx={{ width: 88, height: 88 }}
+                className="edit-profile-avatar"
+              />
+              <IconButton
+                size="small"
+                onClick={handlePickImage}
+                className="edit-profile-avatar-btn"
+                aria-label="Change photo"
+              >
+                <PhotoCameraIcon fontSize="small" />
+              </IconButton>
+              <input
+                ref={fileInputRef}
+                type="file"
+                accept="image/*"
+                hidden
+                onChange={handleFileChange}
+              />
+            </Box>
+          </Box>
+
           <TextField
             label="Nickname"
             value={userNick}
@@ -76,24 +128,25 @@ export default function EditProfileDialog({
             onChange={(e) => setUserPhone(e.target.value)}
             fullWidth
           />
-          <TextField
-            label="Description"
-            value={userDesc}
-            onChange={(e) => setUserDesc(e.target.value)}
-            fullWidth
-            multiline
-            minRows={2}
-          />
           {error && (
-            <Stack sx={{ color: "error.main", fontSize: 14 }}>{error}</Stack>
+            <Typography className="edit-profile-error">{error}</Typography>
           )}
         </Stack>
       </DialogContent>
       <DialogActions>
-        <Button onClick={onClose} disabled={saving}>
+        <Button
+          onClick={onClose}
+          disabled={saving}
+          className="edit-profile-cancel-btn"
+        >
           Cancel
         </Button>
-        <Button onClick={handleSave} variant="contained" disabled={saving}>
+        <Button
+          onClick={handleSave}
+          variant="contained"
+          disabled={saving}
+          className="edit-profile-save-btn"
+        >
           {saving ? "Saving..." : "Save"}
         </Button>
       </DialogActions>

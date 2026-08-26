@@ -35,7 +35,7 @@ export default function ProfileHeader({ user, onEdit }: ProfileHeaderProps) {
           className="profile-header-avatar"
         />
         <Box className="profile-header-info">
-          <Typography variant="h4" className="profile-header-name">
+          <Typography variant="h4" className="profile-header-name font-display">
             {user.userNick}
           </Typography>
           <Typography className="profile-header-phone">

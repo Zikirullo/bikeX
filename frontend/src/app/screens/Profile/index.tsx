@@ -1,17 +1,20 @@
 import { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Box, CircularProgress, Container, Stack } from "@mui/material";
+import { useNavigate } from "react-router-dom";
+import { Box, Button, CircularProgress, Container, Stack } from "@mui/material";
+import LogoutIcon from "@mui/icons-material/Logout";
 
 import { OrderStatus } from "../../../lib/enum/order.enum";
 import type { Order } from "../../../lib/types/order";
 import type { User } from "../../../lib/types/user";
 
-import { setAuth } from "../auth/auth.slice";
+import { clearAuth, setAuth } from "../auth/auth.slice";
 import { selectUser } from "../auth/suth.selector";
 
 import ProfileHeader from "./ProfileHeader";
 import ProfileStats from "./ProfileStats";
 import PersonalInfo from "./PersonalInfo";
+import PaymentMethods from "./PaymentMethods";
 
 import "../../../css/profile.css";
 import UserService from "../../services/User.service";
@@ -30,11 +33,13 @@ const ALL_STATUSES = [
 
 export default function ProfilePage() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const user = useSelector(selectUser);
 
   const [orders, setOrders] = useState<Order[]>([]);
   const [ordersLoading, setOrdersLoading] = useState(true);
   const [editOpen, setEditOpen] = useState(false);
+  const [loggingOut, setLoggingOut] = useState(false);
 
   const refreshUser = useCallback(async () => {
     try {
@@ -69,6 +74,18 @@ export default function ProfilePage() {
   const handleProfileSaved = (updated: User) => {
     dispatch(setAuth({ user: updated }));
     setEditOpen(false);
+  };
+
+  const handleLogout = async () => {
+    setLoggingOut(true);
+    try {
+      await userService.logout();
+    } catch (err) {
+      console.log("ERROR in logout", err);
+    } finally {
+      dispatch(clearAuth());
+      navigate("/");
+    }
   };
 
   if (!user) {
@@ -120,7 +137,19 @@ export default function ProfilePage() {
           className="profile-info-row"
         >
           <PersonalInfo user={user} />
+          <PaymentMethods />
         </Stack>
+
+        <Box className="profile-logout-section">
+          <Button
+            startIcon={<LogoutIcon />}
+            onClick={handleLogout}
+            disabled={loggingOut}
+            className="profile-logout-btn"
+          >
+            {loggingOut ? "Logging out..." : "Log Out"}
+          </Button>
+        </Box>
 
         <EditProfileDialog
           open={editOpen}

@@ -8,7 +8,7 @@
 
 6. modify home page (replace shop by category sectional component)
 7. change statistics with real data
-8. develop logout logic
-9. develop top user sectional component
+<!-- 8. develop logout logic -->
+8. develop top user sectional component
 <!-- 10. modify orders page (tracking logic) -->
-10. modify profile page
+9. modify profile page
