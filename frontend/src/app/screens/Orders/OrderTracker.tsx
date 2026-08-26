@@ -12,10 +12,13 @@ function getActiveStep(status: OrderStatus): number {
   switch (status) {
     case OrderStatus.PENDING:
       return 1;
+
     case OrderStatus.PROCESSING:
       return 2;
+
     case OrderStatus.COMPLETED:
       return 3;
+
     default:
       return 0;
   }
@@ -34,22 +37,28 @@ export default function OrderTracker({ status }: OrderTrackerProps) {
 
   const activeStep = getActiveStep(status);
 
+  const progress =
+    activeStep <= 1 ? 0 : ((activeStep - 1) / (STEPS.length - 1)) * 100;
+
   return (
     <Box className="order-tracker">
       <Box className="order-tracker-track" />
+
       <Box
         className="order-tracker-track order-tracker-track--fill"
-        sx={{ width: `${(activeStep - 1) * (100 / (STEPS.length - 1))}%` }}
+        sx={{ width: `${progress}%` }}
       />
+
       <Stack direction="row" className="order-tracker-steps">
         {STEPS.map((label, index) => {
           const stepNumber = index + 1;
           const done = stepNumber <= activeStep;
+
           return (
             <Box key={label} className="order-tracker-step">
               <Box
-                className={`order-tracker-dot${
-                  done ? " order-tracker-dot--done" : ""
+                className={`order-tracker-dot ${
+                  done ? "order-tracker-dot--done" : ""
                 }`}
               >
                 {done ? (
@@ -58,6 +67,7 @@ export default function OrderTracker({ status }: OrderTrackerProps) {
                   <span>{stepNumber}</span>
                 )}
               </Box>
+
               <Typography className="order-tracker-label">{label}</Typography>
             </Box>
           );

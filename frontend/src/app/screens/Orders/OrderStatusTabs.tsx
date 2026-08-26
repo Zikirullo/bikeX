@@ -29,11 +29,12 @@ export default function OrderStatusTabs({
           key={tab.key}
           onClick={() => onChange(tab.key)}
           disableRipple
-          className={`order-tab-btn${
-            active === tab.key ? " order-tab-btn--active" : ""
+          className={`order-tab-btn ${
+            active === tab.key ? "order-tab-btn--active" : ""
           }`}
         >
           {tab.label}
+
           <Box component="span" className="order-tab-count">
             {counts[tab.key] ?? 0}
           </Box>
