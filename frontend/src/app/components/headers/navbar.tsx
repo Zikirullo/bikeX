@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Badge, Box, Container, Stack } from "@mui/material";
+import { Badge, Box, Button, Container, Stack } from "@mui/material";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
@@ -14,6 +14,7 @@ import UserService from "../../services/User.service";
 import { clearAuth } from "../../screens/auth/auth.slice";
 import { selectBasketCount } from "../Basket/selector";
 import Basket from "../Basket/Basket";
+import { getImagePath } from "../../../lib/config";
 
 export default function Navbar() {
   const isAuthenticated = useSelector(selectIsAuthenticated);
@@ -37,6 +38,8 @@ export default function Navbar() {
       navigate("/");
     }
   };
+
+  const avatarSrc = getImagePath(user?.userImage, "/icons/user.default.png");
 
   return (
     <div className="navbar">
@@ -97,7 +100,11 @@ export default function Navbar() {
               </Box>
             ) : null}
           </Stack>
-          <Stack className="actions">
+          <Stack
+            className="actions"
+            direction="row"
+            sx={{ alignItems: "center" }}
+          >
             <Box
               className={"cart-icon"}
               onClick={() => setBasketOpen(true)}
@@ -112,29 +119,25 @@ export default function Navbar() {
                 Login
               </NavLink>
             ) : (
-              <Box sx={{ position: "relative" }}>
+              <Stack direction="row" sx={{ alignItems: "center" }} spacing={1}>
                 <img
                   className="user-avatar"
-                  src={user?.userImage || "/icons/user.default.png"}
+                  src={avatarSrc}
+                  alt={user?.userNick ?? "User"}
                   aria-haspopup={"true"}
                   onClick={() => setMenuOpen((prev) => !prev)}
                   style={{ cursor: "pointer" }}
                 />
                 {menuOpen && (
-                  <Box className="user-menu">
-                    <NavLink
-                      to="/profile"
-                      className="user-menu-item"
-                      onClick={() => setMenuOpen(false)}
-                    >
-                      Profile
-                    </NavLink>
-                    <Box className="user-menu-item" onClick={handleLogout}>
-                      Log out
-                    </Box>
-                  </Box>
+                  <Button
+                    onClick={handleLogout}
+                    className="navbar-logout-btn"
+                    size="small"
+                  >
+                    Log out
+                  </Button>
                 )}
-              </Box>
+              </Stack>
             )}
           </Stack>
         </Stack>
