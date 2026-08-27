@@ -12,6 +12,7 @@ export default function PersonalInfo({ user }: PersonalInfoProps) {
   const fields = [
     { label: "Nickname", value: user.userNick },
     { label: "Phone", value: user.userPhone },
+    { label: "Points", value: `${user.userPoints ?? 0} pts` },
     { label: "User Type", value: user.userType },
     { label: "Member Since", value: String(memberSince) },
   ];

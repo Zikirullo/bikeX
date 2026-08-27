@@ -36,6 +36,7 @@ export default function EditProfileDialog({
 
   const [userNick, setUserNick] = useState(user.userNick);
   const [userPhone, setUserPhone] = useState(user.userPhone);
+  const [userDesc, setUserDesc] = useState(user.userDesc ?? "");
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);
@@ -64,10 +65,9 @@ export default function EditProfileDialog({
         _id: user._id,
         userNick,
         userPhone,
+        userDesc,
         userImage: user.userImage,
       };
-      // imageFile is only sent if the person actually picked a new one —
-      // the backend keeps the existing stored image otherwise.
       const updated = await userService.update(input, imageFile ?? undefined);
       onSaved(updated);
     } catch (err) {
@@ -85,6 +85,11 @@ export default function EditProfileDialog({
       fullWidth
       maxWidth="sm"
       className="edit-profile-dialog"
+      slotProps={{
+        paper: {
+          className: "edit-profile-paper",
+        },
+      }}
     >
       <DialogTitle className="edit-profile-title font-display">
         Edit Profile
@@ -121,19 +126,30 @@ export default function EditProfileDialog({
             value={userNick}
             onChange={(e) => setUserNick(e.target.value)}
             fullWidth
+            className="edit-profile-field"
           />
           <TextField
             label="Phone"
             value={userPhone}
             onChange={(e) => setUserPhone(e.target.value)}
             fullWidth
+            className="edit-profile-field"
+          />
+          <TextField
+            label="Description"
+            value={userDesc}
+            onChange={(e) => setUserDesc(e.target.value)}
+            multiline
+            rows={3}
+            fullWidth
+            className="edit-profile-field"
           />
           {error && (
             <Typography className="edit-profile-error">{error}</Typography>
           )}
         </Stack>
       </DialogContent>
-      <DialogActions>
+      <DialogActions className="edit-profile-actions">
         <Button
           onClick={onClose}
           disabled={saving}
@@ -147,7 +163,7 @@ export default function EditProfileDialog({
           disabled={saving}
           className="edit-profile-save-btn"
         >
-          {saving ? "Saving..." : "Save"}
+          {saving ? "Saving..." : "Save Changes"}
         </Button>
       </DialogActions>
     </Dialog>

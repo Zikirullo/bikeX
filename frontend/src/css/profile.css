@@ -1,3 +1,6 @@
+/* ==========================================================================
+   PROFILE PAGE BASE STYLES
+   ========================================================================== */
 .profile-page {
   background-color: #0a0a0a;
   min-height: 100vh;
@@ -9,7 +12,34 @@
   gap: 16px;
   margin-bottom: 32px;
 }
-/* Profile header */
+
+/* Logout Section */
+.profile-logout-section {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 16px;
+  margin-bottom: 32px;
+}
+
+.profile-logout-btn {
+  color: #ef4444 !important;
+  border: 1px solid rgba(239, 68, 68, 0.2) !important;
+  background-color: rgba(239, 68, 68, 0.05) !important;
+  text-transform: none !important;
+  font-weight: 600 !important;
+  border-radius: 12px !important;
+  padding: 8px 20px !important;
+  transition: all 0.2s ease-in-out !important;
+}
+
+.profile-logout-btn:hover {
+  background-color: rgba(239, 68, 68, 0.15) !important;
+  border-color: #ef4444 !important;
+}
+
+/* ==========================================================================
+   PROFILE HEADER CARD
+   ========================================================================== */
 .profile-header-card {
   background-color: #111 !important;
   border: 1px solid #222;
@@ -61,15 +91,19 @@
 .profile-header-edit-btn {
   background-color: #f97316 !important;
   color: #000 !important;
-  text-transform: none;
-  font-weight: 700;
-  border-radius: 999px;
+  text-transform: none !important;
+  font-weight: 700 !important;
+  border-radius: 999px !important;
+  padding: 8px 20px !important;
 }
 
 .profile-header-edit-btn:hover {
   background-color: #ea6c0f !important;
 }
-/* Profile Stats */
+
+/* ==========================================================================
+   PROFILE STATS
+   ========================================================================== */
 .profile-stats-row {
   flex-wrap: wrap;
   gap: 16px;
@@ -95,7 +129,10 @@
   font-size: 14px;
   margin-top: 4px;
 }
-/* Profile Info */
+
+/* ==========================================================================
+   PERSONAL INFO CARD
+   ========================================================================== */
 .personal-info-card {
   background-color: #111 !important;
   border: 1px solid #222;
@@ -140,7 +177,195 @@
   font-weight: 600;
   margin-top: 2px;
 }
-/* Whishlist */
+
+/* ==========================================================================
+   PAYMENT METHOD SECTION
+   ========================================================================== */
+.payment-card {
+  flex: 1;
+  padding: 1.5rem;
+  border-radius: 24px !important;
+  background: #111 !important;
+  color: #f5f5f5 !important;
+  border: 1px solid #222;
+  box-shadow: none !important;
+}
+
+.payment-header {
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.payment-icon {
+  color: #f97316;
+}
+
+.payment-title {
+  font-weight: 700;
+  color: #f5f5f5;
+}
+
+.payment-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.payment-row {
+  gap: 1rem;
+}
+
+.payment-field--half {
+  flex: 1;
+}
+
+.payment-field .MuiOutlinedInput-root {
+  background: #101114;
+  border-radius: 12px;
+}
+
+.payment-field .MuiOutlinedInput-notchedOutline {
+  border-color: #2e2e2e !important;
+}
+
+.payment-field:hover .MuiOutlinedInput-notchedOutline {
+  border-color: #3a3b42 !important;
+}
+
+.payment-field .Mui-focused .MuiOutlinedInput-notchedOutline,
+.payment-field
+  .MuiOutlinedInput-root.Mui-focused
+  .MuiOutlinedInput-notchedOutline {
+  border-color: #f97316 !important;
+}
+
+.payment-field .MuiOutlinedInput-input {
+  color: #f5f5f5 !important;
+}
+
+.payment-field .MuiInputLabel-root {
+  color: #888 !important;
+}
+
+.payment-field .MuiInputLabel-root.Mui-focused {
+  color: #f97316 !important;
+}
+
+.payment-save-btn {
+  margin-top: 0.5rem !important;
+  border-radius: 9999px !important;
+  padding: 0.75rem !important;
+  background: #f97316 !important;
+  color: #000 !important;
+  font-weight: 700 !important;
+  text-transform: none !important;
+}
+
+.payment-save-btn:hover {
+  background: #ea6c0f !important;
+}
+
+/* ==========================================================================
+   EDIT PROFILE DIALOG (DARK THEME)
+   ========================================================================== */
+.edit-profile-paper {
+  background-color: #111 !important;
+  color: #fff !important;
+  border: 1px solid #222 !important;
+  border-radius: 24px !important;
+  padding: 12px;
+}
+
+.edit-profile-title {
+  color: #fff !important;
+  font-weight: 800 !important;
+  border-bottom: 1px solid #222;
+  padding-bottom: 16px !important;
+}
+
+.edit-profile-avatar-btn {
+  position: absolute !important;
+  bottom: -4px;
+  right: -4px;
+  background: #f97316 !important;
+  color: #000 !important;
+  width: 28px !important;
+  height: 28px !important;
+}
+
+.edit-profile-avatar-btn:hover {
+  background: #ea6c0f !important;
+}
+
+.edit-profile-field .MuiOutlinedInput-root {
+  background: #101114;
+  border-radius: 12px;
+}
+
+.edit-profile-field .MuiOutlinedInput-notchedOutline {
+  border-color: #2e2e2e !important;
+}
+
+.edit-profile-field:hover .MuiOutlinedInput-notchedOutline {
+  border-color: #3a3b42 !important;
+}
+
+.edit-profile-field .Mui-focused .MuiOutlinedInput-notchedOutline,
+.edit-profile-field
+  .MuiOutlinedInput-root.Mui-focused
+  .MuiOutlinedInput-notchedOutline {
+  border-color: #f97316 !important;
+}
+
+.edit-profile-field .MuiOutlinedInput-input,
+.edit-profile-field .MuiInputBase-inputMultiline {
+  color: #f5f5f5 !important;
+}
+
+.edit-profile-field .MuiInputLabel-root {
+  color: #888 !important;
+}
+
+.edit-profile-field .MuiInputLabel-root.Mui-focused {
+  color: #f97316 !important;
+}
+
+.edit-profile-error {
+  color: #ef4444 !important;
+  font-size: 0.875rem;
+}
+
+.edit-profile-actions {
+  padding: 16px 24px !important;
+  border-top: 1px solid #222;
+}
+
+.edit-profile-cancel-btn {
+  color: #888 !important;
+  text-transform: none !important;
+}
+
+.edit-profile-cancel-btn:hover {
+  color: #fff !important;
+}
+
+.edit-profile-save-btn {
+  background: #f97316 !important;
+  color: #000 !important;
+  text-transform: none !important;
+  font-weight: 700 !important;
+  border-radius: 9999px !important;
+  padding: 6px 20px !important;
+}
+
+.edit-profile-save-btn:hover {
+  background: #ea6c0f !important;
+}
+
+/* ==========================================================================
+   WISHLIST SECTION
+   ========================================================================== */
 .wishlist-header {
   justify-content: space-between;
   align-items: center;
@@ -227,131 +452,4 @@
 
 .wishlist-action-btn--danger {
   color: #f97316 !important;
-}
-
-.edit-profile-avatar-btn {
-  position: absolute !important;
-  bottom: -4px;
-  right: -4px;
-  background: #f97316 !important;
-  color: #000 !important;
-  width: 28px !important;
-  height: 28px !important;
-}
-
-.edit-profile-avatar-btn:hover {
-  background: #ea6c0f !important;
-}
-
-.edit-profile-error {
-  color: #ef4444;
-  font-size: 0.875rem;
-}
-
-.edit-profile-cancel-btn {
-  text-transform: none !important;
-}
-
-.edit-profile-save-btn {
-  background: #f97316 !important;
-  color: #000 !important;
-  text-transform: none !important;
-  font-weight: 700 !important;
-}
-
-.edit-profile-save-btn:hover {
-  background: #ea6c0f !important;
-}
-
-/* Payment Method section — REPLACES the .payment-* rules from the
-   earlier profile-additions.css. The previous version never set a
-   background/color on .payment-card, so it fell back to MUI's default
-   white Card + light-mode TextField styling — this fixes that. */
-
-.payment-card {
-  flex: 1;
-  padding: 1.5rem;
-  border-radius: 1rem;
-  background: #111 !important;
-  color: #f5f5f5 !important;
-  border: 1px solid #2a2b30;
-  box-shadow: none !important;
-}
-
-.payment-header {
-  align-items: center;
-  gap: 0.5rem;
-  margin-bottom: 1.5rem;
-}
-
-.payment-icon {
-  color: #f97316;
-}
-
-.payment-title {
-  font-weight: 700;
-  color: #f5f5f5;
-}
-
-.payment-form {
-  display: flex;
-  flex-direction: column;
-  gap: 1.25rem;
-}
-
-.payment-row {
-  gap: 1rem;
-}
-
-.payment-field--half {
-  flex: 1;
-}
-
-/* MUI TextField overrides — outlined variant defaults to light-mode
-   colors, so every layer needs to be forced dark explicitly. */
-
-.payment-field .MuiOutlinedInput-root {
-  background: #101114;
-  border-radius: 0.6rem;
-}
-
-.payment-field .MuiOutlinedInput-notchedOutline {
-  border-color: #2e2e2e !important;
-}
-
-.payment-field:hover .MuiOutlinedInput-notchedOutline {
-  border-color: #3a3b42 !important;
-}
-
-.payment-field .Mui-focused .MuiOutlinedInput-notchedOutline,
-.payment-field
-  .MuiOutlinedInput-root.Mui-focused
-  .MuiOutlinedInput-notchedOutline {
-  border-color: #f97316 !important;
-}
-
-.payment-field .MuiOutlinedInput-input {
-  color: #f5f5f5 !important;
-}
-
-.payment-field .MuiInputLabel-root {
-  color: #f6f6fa !important;
-}
-
-.payment-field .MuiInputLabel-root.Mui-focused {
-  color: #f97316 !important;
-}
-
-.payment-save-btn {
-  margin-top: 0.5rem !important;
-  border-radius: 9999px !important;
-  padding: 0.75rem !important;
-  background: #f97316 !important;
-  color: #000 !important;
-  font-weight: 700 !important;
-  text-transform: none !important;
-}
-
-.payment-save-btn:hover {
-  background: #ea6c0f !important;
 }
