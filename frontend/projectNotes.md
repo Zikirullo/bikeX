@@ -14,4 +14,4 @@
       <!-- 9. modify profile page -->
    modify profile page.
       <!-- fixed give users points logic -->
-   create BudgetPicks sectional component
+   <!-- create BudgetPicks sectional component -->

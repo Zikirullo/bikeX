@@ -1,10 +1,5 @@
 import { useEffect, useState } from "react";
-import { Box, Container, Stack } from "@mui/material";
-import Card from "@mui/joy/Card";
-import { CssVarsProvider, Typography } from "@mui/joy";
-import CardOverflow from "@mui/joy/CardOverflow";
-import AspectRatio from "@mui/joy/AspectRatio";
-
+import { Box, Container, Grid, Typography } from "@mui/material";
 import UserService from "../../services/User.service";
 import { getImagePath } from "../../../lib/config";
 import type { User } from "../../../lib/types/user";
@@ -23,46 +18,59 @@ export default function ActiveUsers() {
         );
         setTopUsers(sorted.slice(0, 4));
       })
-      .catch((err) => {
-        console.log("ERROR fetching top users", err);
-      });
+      .catch((err) => console.log("ERROR fetching top users", err));
   }, []);
 
   return (
-    <div className={"active-users-frame"}>
+    <div className="home-section">
       <Container>
-        <Stack className={"main"}>
-          <Box className={"category-title font-display"}>Active Riders</Box>
-          <Stack className={"cards-frame"}>
-            <CssVarsProvider defaultMode="dark">
-              {topUsers.length !== 0 ? (
-                topUsers.map((user: User) => {
-                  const imagePath = getImagePath(
-                    user.userImage,
-                    "/img/profile-placeholder.png",
-                  );
+        <Box className="section-header">
+          <Box
+            className="section-header-title font-display"
+            data-badge="COMMUNITY"
+          >
+            Active Riders
+          </Box>
+        </Box>
 
-                  return (
-                    <Card key={user._id} variant="outlined" className={"card"}>
-                      <CardOverflow>
-                        <AspectRatio ratio="1">
-                          <img src={imagePath} alt={user.userNick} />
-                        </AspectRatio>
-                      </CardOverflow>
-                      <CardOverflow className={"card-body"}>
-                        <Typography className={"user-nickname"}>
-                          {user.userNick}
-                        </Typography>
-                      </CardOverflow>
-                    </Card>
-                  );
-                })
-              ) : (
-                <Box className="no-data">No Active Riders!</Box>
-              )}
-            </CssVarsProvider>
-          </Stack>
-        </Stack>
+        <Grid container spacing={3}>
+          {topUsers.length > 0 ? (
+            topUsers.map((user: User) => {
+              const imagePath = getImagePath(
+                user.userImage,
+                "/img/profile-placeholder.png",
+              );
+
+              return (
+                <Grid size={{ xs: 12, sm: 6, md: 3 }} key={user._id}>
+                  <Box className="custom-card" style={{ cursor: "default" }}>
+                    <Box className="custom-card-media" style={{ height: 220 }}>
+                      <img
+                        className="custom-card-img"
+                        src={imagePath}
+                        alt={user.userNick}
+                      />
+                      <Box className="custom-card-media-overlay" />
+                    </Box>
+                    <Box className="custom-card-body">
+                      <Typography className="custom-card-title">
+                        {user.userNick}
+                      </Typography>
+                      <Typography
+                        className="custom-card-subtext"
+                        style={{ color: "#ff8a3d" }}
+                      >
+                        {user.userPoints ?? 0} pts
+                      </Typography>
+                    </Box>
+                  </Box>
+                </Grid>
+              );
+            })
+          ) : (
+            <Box className="no-data">No Active Riders found.</Box>
+          )}
+        </Grid>
       </Container>
     </div>
   );

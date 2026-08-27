@@ -1,12 +1,11 @@
 import { useEffect } from "react";
-import { Box, Container, Stack } from "@mui/material";
+import { Box, Container, Grid, Typography } from "@mui/material";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import { useDispatch, useSelector } from "react-redux";
 import { createSelector } from "reselect";
 import { useNavigate } from "react-router-dom";
 
 import BikesService from "../../services/Bikes.service";
-
 import { api } from "../../../lib/config";
 import type { Bike } from "../../../lib/types/bike";
 import { retrieveBikes } from "../Bikes/selector";
@@ -24,70 +23,66 @@ export default function BudgetPicks() {
     bikesService
       .getBikes({ page: 1, limit: 4, order: "bikePriceAsc", search: "" })
       .then((data) => dispatch(setCBikes(data)))
-      .catch((err) => {
-        console.log("ERROR fetching budget picks", err);
-      });
+      .catch((err) => console.log("ERROR fetching budget picks", err));
   }, [dispatch]);
 
-  const goToDetails = (id: string) => {
-    navigate(`/bikes/${id}`);
-  };
-
   return (
-    <div className={"budget-picks-frame"}>
+    <div className="home-section-alt">
       <Container>
-        <Stack className={"main"}>
-          <Box className={"category-title font-display"}>Budget Picks</Box>
-          <Stack className={"cards-frame"}>
-            {bikes.length !== 0 ? (
-              bikes.map((bike: Bike) => {
-                const imagePath = bike.bikeImages
-                  ? `${api}/${bike.bikeImages}`
-                  : "/img/bike-placeholder.png";
+        <Box className="section-header">
+          <Box
+            className="section-header-title font-display"
+            data-badge="AFFORDABLE RIDES"
+          >
+            Budget Picks
+          </Box>
+        </Box>
 
-                return (
+        <Grid container spacing={3}>
+          {bikes.length > 0 ? (
+            bikes.map((bike: Bike) => {
+              const imagePath = bike.bikeImages
+                ? `${api}/${bike.bikeImages}`
+                : "/img/bike-placeholder.png";
+
+              return (
+                <Grid size={{ xs: 12, sm: 6, md: 3 }} key={bike._id}>
                   <Box
-                    key={bike._id}
-                    className={"budget-card"}
-                    onClick={() => goToDetails(bike._id)}
+                    className="custom-card"
+                    onClick={() => navigate(`/bikes/${bike._id}`)}
                   >
-                    <Box className={"budget-card-image-frame"}>
-                      <Box
-                        component="img"
+                    <Box className="custom-card-media">
+                      <img
+                        className="custom-card-img"
                         src={imagePath}
                         alt={bike.bikeName}
-                        className={"budget-card-image"}
                       />
-                      <Box className={"budget-card-overlay"} />
-                      <Stack
-                        direction="row"
-                        className={"budget-card-overlay-content"}
-                      >
-                        <Box className={"budget-card-name"}>
+                      <Box className="custom-card-media-overlay" />
+                      <Box className="custom-card-media-content">
+                        <Typography className="custom-card-title">
                           {bike.bikeName}
+                        </Typography>
+                        <Box className="custom-card-badge">
+                          {bike.bikeViews} <VisibilityIcon fontSize="inherit" />
                         </Box>
-                        <Stack direction="row" className={"budget-card-views"}>
-                          <Box>{bike.bikeViews}</Box>
-                          <VisibilityIcon fontSize="inherit" />
-                        </Stack>
-                      </Stack>
+                      </Box>
                     </Box>
-                    <Stack direction="row" className={"budget-card-footer"}>
-                      <Box className={"budget-card-brand"}>
+                    <Box className="custom-card-body">
+                      <Typography className="custom-card-subtext">
                         {bike.bikeBrandName}
-                      </Box>
-                      <Box className={"budget-card-price font-display"}>
+                      </Typography>
+                      <Typography className="custom-card-price font-display">
                         ${bike.bikePrice}
-                      </Box>
-                    </Stack>
+                      </Typography>
+                    </Box>
                   </Box>
-                );
-              })
-            ) : (
-              <Box className="no-data">No Budget Picks available!</Box>
-            )}
-          </Stack>
-        </Stack>
+                </Grid>
+              );
+            })
+          ) : (
+            <Box className="no-data">No Budget Picks available right now.</Box>
+          )}
+        </Grid>
       </Container>
     </div>
   );
