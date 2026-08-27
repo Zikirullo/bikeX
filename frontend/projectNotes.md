@@ -10,5 +10,5 @@
 7. change statistics with real data
 <!-- 8. develop logout logic -->
 8. develop top user sectional component
-<!-- 10. modify orders page (tracking logic) -->
-9. modify profile page
+   <!-- 10. modify orders page (tracking logic) -->
+   <!-- 9. modify profile page -->
