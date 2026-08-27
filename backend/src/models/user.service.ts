@@ -162,7 +162,7 @@ class UserService {
       {
         _id: userId,
         userType: UserType.USER,
-        UserStatus: UserStatus.ACTIVE,
+        userStatus: UserStatus.ACTIVE,
       },
       { $inc: { userPoints: point } },
       { new: true },

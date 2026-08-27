@@ -134,7 +134,7 @@ class OrderService {
     if (!result)
       throw new Errors(HttpCode.NOT_MODIFIED, Message.UPDATED_FAILED);
 
-    if (orderStatus === OrderStatus.PROCESSING) {
+    if (orderStatus === OrderStatus.COMPLETED) {
       await this.UserService.addUserPoints(user, +1);
     }
 
