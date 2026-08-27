@@ -2,7 +2,6 @@ import { useState } from "react";
 import { Box, Button, Card, Stack, TextField, Typography } from "@mui/material";
 import CreditCardIcon from "@mui/icons-material/CreditCard";
 
-// Static for now — no backend wiring. Local state only, resets on refresh.
 export default function PaymentMethods() {
   const [cardName, setCardName] = useState("");
   const [cardNumber, setCardNumber] = useState("");

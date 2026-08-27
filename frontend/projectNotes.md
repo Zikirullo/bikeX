@@ -12,3 +12,4 @@
 8. develop top user sectional component
    <!-- 10. modify orders page (tracking logic) -->
    <!-- 9. modify profile page -->
+   modify profile page

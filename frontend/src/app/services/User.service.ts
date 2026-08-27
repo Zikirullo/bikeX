@@ -75,9 +75,6 @@ export default class UserService {
     }
   }
 
-  // imageFile is a real File from an <input type="file">, kept separate
-  // from UserUpdateInput.userImage (which stays the stored string path)
-  // since the backend's multer route needs an actual file, not a path.
   public async update(input: UserUpdateInput, imageFile?: File): Promise<User> {
     try {
       const formData = new FormData();
@@ -94,7 +91,6 @@ export default class UserService {
         withCredentials: true,
       });
 
-      // Extract user object safely (res.status().json(result) maps directly to result.data)
       const user: User = result.data?.user || result.data?.data || result.data;
 
       if (!user || typeof user !== "object") {
