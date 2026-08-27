@@ -90,7 +90,7 @@ class OrderService {
         { $limit: inquery.limit },
         {
           $lookup: {
-            from: "orderItem",
+            from: "OrderItems",
             localField: "_id",
             foreignField: "orderId",
             as: "orderItems",
@@ -99,7 +99,7 @@ class OrderService {
         {
           $lookup: {
             from: "Bikes",
-            localField: "orderItems.productId",
+            localField: "orderItems.bikeId",
             foreignField: "_id",
             as: "bikeData",
           },
