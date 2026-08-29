@@ -26,7 +26,7 @@ bikeXController.goHome = async (req: ExtendedRequest, res: Response) => {
     console.log("bikeStats passes->", bikeStats);
     console.log("userStats passes->", userStats);
 
-    res.render("home", { bikeStats, userStats });
+    res.render("home", { user: req.user, bikeStats, userStats });
   } catch (err) {
     console.log("Error, goHome", err);
   }
@@ -57,12 +57,11 @@ bikeXController.processSignup = async (req: Request, res: Response) => {
     input.userType = UserType.ADMIN;
     const result: User = await userService.processSignup(input);
     const token = await authService.createToken(result);
-    res.cookie("accessToken", token, {
+    res.cookie("adminAccessToken", token, {
       maxAge: AUTH_TIMER * 3600 * 1000,
       httpOnly: true,
     });
 
-    // res.status(HttpCode.CREATED).json({ user: result, accessToken: token });
     res.redirect("/admin");
   } catch (err) {
     console.log("Error, processSignup", err);
@@ -77,12 +76,11 @@ bikeXController.processLogin = async (req: Request, res: Response) => {
     const input: LoginInput = req.body,
       result = await userService.processLogin(input),
       token = await authService.createToken(result);
-    res.cookie("accessToken", token, {
+    res.cookie("adminAccessToken", token, {
       maxAge: AUTH_TIMER * 3600 * 1000,
       httpOnly: true,
     });
 
-    // res.status(HttpCode.OK).json({ user: result, accessToken: token });
     res.redirect("/admin");
   } catch (err) {
     console.log("Error, processLogin ", err);
@@ -94,7 +92,7 @@ bikeXController.processLogin = async (req: Request, res: Response) => {
 bikeXController.logout = (req: Request, res: Response) => {
   try {
     console.log("logout");
-    res.cookie("accessToken", null, { maxAge: 0, httpOnly: true });
+    res.cookie("adminAccessToken", null, { maxAge: 0, httpOnly: true });
     res.status(HttpCode.OK).json({ logout: true });
   } catch (err) {
     console.log("Error, logout ", err);
@@ -109,7 +107,7 @@ bikeXController.verifyAuth = async (
   next: NextFunction,
 ) => {
   try {
-    const token = req.cookies?.["accessToken"];
+    const token = req.cookies?.["adminAccessToken"];
     if (!token) throw new Error("no token");
 
     const user = await authService.verifyAuth(token);

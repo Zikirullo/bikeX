@@ -6,7 +6,7 @@ import multer from "multer";
 import { userController } from "./controllers/users.controller";
 const admin = express.Router();
 
-admin.get("/", bikeXController.goHome);
+admin.get("/", bikeXController.verifyAuth, bikeXController.goHome);
 admin
   .get("/signup", bikeXController.getSignup)
   .post(
