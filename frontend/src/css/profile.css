@@ -54,8 +54,8 @@
 }
 
 .profile-header-avatar {
-  width: 96px;
-  height: 96px;
+  width: 140px !important;
+  height: 140px !important;
   border: 2px solid #f97316;
 }
 
