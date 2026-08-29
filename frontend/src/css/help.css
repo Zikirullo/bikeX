@@ -29,6 +29,7 @@
 
 .help-title {
   color: var(--foreground);
+  font-family: var(--font-display);
   font-size: clamp(2.5rem, 5vw, 3.5rem) !important;
   font-weight: 900 !important;
   letter-spacing: -0.04em;
@@ -98,6 +99,7 @@
 .section-title {
   margin-bottom: 24px !important;
   color: var(--foreground);
+  font-family: var(--font-display);
   font-size: 1.6rem !important;
   font-weight: 800 !important;
 }
@@ -109,19 +111,21 @@
 .category-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
+  align-items: start;
   gap: 16px;
 }
 
 .category-card {
-  min-height: 110px;
-  padding: 20px;
-  display: flex;
+  min-height: unset !important;
+  height: auto !important;
+  padding: 14px 16px !important;
+  display: flex !important;
   align-items: center;
-  gap: 16px;
+  gap: 12px;
 
   background: var(--card) !important;
   border: 1px solid var(--border);
-  border-radius: 16px !important;
+  border-radius: 14px !important;
 
   cursor: pointer;
   transition:
@@ -137,17 +141,17 @@
 }
 
 .category-icon {
-  width: 48px;
-  height: 48px;
-  min-width: 48px;
+  width: 38px;
+  height: 38px;
+  min-width: 38px;
 
   display: grid;
   place-items: center;
 
   background: var(--secondary);
-  border-radius: 12px;
+  border-radius: 10px;
 
-  font-size: 23px;
+  font-size: 18px;
 }
 
 .category-content {
@@ -157,12 +161,13 @@
 .category-title {
   color: var(--foreground);
   font-weight: 700 !important;
+  font-size: 0.95rem !important;
 }
 
 .category-articles {
-  margin-top: 4px !important;
+  margin-top: 2px !important;
   color: var(--muted-foreground);
-  font-size: 0.875rem !important;
+  font-size: 0.8rem !important;
 }
 
 .category-arrow {
@@ -231,8 +236,9 @@
 }
 
 .support-card {
-  min-height: 300px;
-  padding: 32px;
+  min-height: unset !important;
+  height: auto !important;
+  padding: 22px !important;
 
   display: flex;
   flex-direction: column;
@@ -246,15 +252,15 @@
 }
 
 .support-icon {
-  width: 48px;
-  height: 48px;
+  width: 40px;
+  height: 40px;
 
   display: grid;
   place-items: center;
 
-  margin-bottom: 20px;
+  margin-bottom: 14px;
 
-  border-radius: 12px;
+  border-radius: 10px;
   background: rgba(249, 115, 22, 0.12);
   color: var(--primary);
 }

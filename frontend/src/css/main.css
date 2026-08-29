@@ -15,6 +15,36 @@ body {
   font-family: var(--font-body);
 }
 
+/* Apply the body font everywhere, including MUI components which
+   otherwise inject their own font-family and override inheritance. */
+body,
+.MuiTypography-root,
+.MuiButton-root,
+.MuiInputBase-root,
+.MuiInputBase-input,
+.MuiMenuItem-root,
+.MuiChip-root,
+.MuiTab-root,
+.MuiTooltip-tooltip {
+  font-family: var(--font-body) !important;
+}
+
+/* Headings / display-style text use the display font. */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.MuiTypography-h1,
+.MuiTypography-h2,
+.MuiTypography-h3,
+.MuiTypography-h4,
+.MuiTypography-h5,
+.MuiTypography-h6 {
+  font-family: var(--font-display) !important;
+}
+
 html,
 body,
 #root {
