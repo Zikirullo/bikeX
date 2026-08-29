@@ -27,6 +27,30 @@ class BikesService {
     this.UserModel = userModel;
     this.viewService = new ViewService();
   }
+  public async bikeStatistics(): Promise<{
+    active: number;
+    sold: number;
+    unlisted: number;
+  }> {
+    const [active, sold, unlisted] = await Promise.all([
+      this.bikeModel.countDocuments({
+        bikeStatus: BikeStatus.ACTIVE,
+      }),
+
+      this.bikeModel.countDocuments({
+        bikeStatus: BikeStatus.SOLD,
+      }),
+
+      this.bikeModel.countDocuments({
+        bikeStatus: BikeStatus.UNLISTED,
+      }),
+    ]);
+    return {
+      active,
+      sold,
+      unlisted,
+    };
+  }
 
   public async getBikes(inquery: BikeInQuery): Promise<Bike[]> {
     const match: T = {

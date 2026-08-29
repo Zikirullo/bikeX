@@ -18,10 +18,12 @@ const authService = new AuthService();
 const bikesService = new BikesService();
 
 const bikeXController: T = {};
-bikeXController.goHome = (req: Request, res: Response) => {
+bikeXController.goHome = async (req: ExtendedRequest, res: Response) => {
   try {
     console.log("goHome");
-    res.render("home");
+    const bikeStats = await bikesService.bikeStatistics();
+    console.log("bikeStats", bikeStats);
+    res.render("home", { result: bikeStats });
   } catch (err) {
     console.log("Error, goHome", err);
   }
