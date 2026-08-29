@@ -1,128 +1,247 @@
-/* ─── Ticker ─── */
-const TICKER_TEXT =
-  "ADMIN PANEL · SYSTEM ACTIVE · ALL SYSTEMS NOMINAL · BIKE MANAGEMENT · USER CONTROL · REAL TIME DATA · ";
-const track = document.getElementById("ticker");
-track.textContent = TICKER_TEXT.repeat(6);
-
-/* ─── Chain links ─── */
-function buildChain(id, count) {
-  const el = document.getElementById(id);
-  for (let i = 0; i < count; i++) {
-    const d = document.createElement("div");
-    d.className = "link" + (i % 2 === 0 ? " filled" : "");
-    el.appendChild(d);
-  }
+// clock
+function tick() {
+  document.getElementById("clock").textContent = new Date()
+    .toTimeString()
+    .slice(0, 8);
 }
-buildChain("chainL", 8);
-buildChain("chainR", 8);
+tick();
+setInterval(tick, 1000);
 
-/* ─── Gear drawing ─── */
-function drawGear(canvas, teeth, color = "#f97316") {
-  const ctx = canvas.getContext("2d");
-  const W = canvas.width,
-    H = canvas.height;
-  const cx = W / 2,
-    cy = H / 2;
-  const R = W / 2 - 2;
-  const innerR = R * 0.6;
-  const toothH = R * 0.22;
-  const holeR = R * 0.22;
+// ticker
+var TICKER =
+  "BIKE STORE ADMIN · LIVE DASHBOARD · BIKE MANAGEMENT · USER CONTROL · REAL TIME DATA · ";
+document.getElementById("ticker").textContent = TICKER.repeat(6);
 
-  ctx.clearRect(0, 0, W, H);
-  ctx.strokeStyle = color;
-  ctx.lineWidth = 1.5;
-  ctx.lineJoin = "round";
+// bike canvas
+var canvas = document.getElementById("bikeCanvas");
+var ctx = canvas.getContext("2d");
+var W = canvas.width;
+var H = canvas.height;
+var wA = 0;
+var pA = 0;
+
+function drawWheel(x, y, r, a) {
+  ctx.beginPath();
+  ctx.arc(x, y, r, 0, Math.PI * 2);
+  ctx.strokeStyle = "#f5f5f5";
+  ctx.lineWidth = 9;
+  ctx.stroke();
 
   ctx.beginPath();
-  for (let i = 0; i < teeth; i++) {
-    const a = (i / teeth) * Math.PI * 2 - Math.PI / 2;
-    const na = ((i + 1) / teeth) * Math.PI * 2 - Math.PI / 2;
-    const ma = a + (na - a) * 0.5;
-    const gs = a + (na - a) * 0.15;
-    const ge = na - (na - a) * 0.15;
-    const tw = (na - a) * 0.4;
-    const ts = ma - tw,
-      te = ma + tw;
+  ctx.arc(x, y, r - 6, 0, Math.PI * 2);
+  ctx.strokeStyle = "#333";
+  ctx.lineWidth = 3;
+  ctx.stroke();
 
-    if (i === 0)
-      ctx.moveTo(cx + innerR * Math.cos(gs), cy + innerR * Math.sin(gs));
-    else ctx.lineTo(cx + innerR * Math.cos(gs), cy + innerR * Math.sin(gs));
-
-    ctx.lineTo(
-      cx + (R + toothH) * Math.cos(ts),
-      cy + (R + toothH) * Math.sin(ts),
-    );
-    ctx.lineTo(
-      cx + (R + toothH) * Math.cos(te),
-      cy + (R + toothH) * Math.sin(te),
-    );
-    ctx.lineTo(cx + innerR * Math.cos(ge), cy + innerR * Math.sin(ge));
+  for (var i = 0; i < 8; i++) {
+    var sa = a + (i * Math.PI) / 4;
+    ctx.beginPath();
+    ctx.moveTo(x + 6 * Math.cos(sa), y + 6 * Math.sin(sa));
+    ctx.lineTo(x + (r - 7) * Math.cos(sa), y + (r - 7) * Math.sin(sa));
+    ctx.strokeStyle = i === 0 ? "#f97316" : "#444";
+    ctx.lineWidth = 1.5;
+    ctx.stroke();
   }
-  ctx.closePath();
-  ctx.stroke();
 
   ctx.beginPath();
-  ctx.arc(cx, cy, holeR, 0, Math.PI * 2);
-  ctx.stroke();
-
-  ctx.beginPath();
-  ctx.arc(cx, cy, holeR * 0.4, 0, Math.PI * 2);
-  ctx.fillStyle = color;
-  ctx.globalAlpha = 0.6;
+  ctx.arc(x, y, 5, 0, Math.PI * 2);
+  ctx.fillStyle = "#f97316";
   ctx.fill();
-  ctx.globalAlpha = 1;
+
+  ctx.beginPath();
+  ctx.arc(x, y, 2.5, 0, Math.PI * 2);
+  ctx.fillStyle = "#0c0c0c";
+  ctx.fill();
 }
 
-const gears = [
-  { id: "gearA", teeth: 14, dir: 1, speed: 0.008 },
-  { id: "gearB", teeth: 14, dir: -1, speed: 0.008 },
-  { id: "gearC", teeth: 10, dir: 1, speed: 0.005 },
-  { id: "gearD", teeth: 11, dir: -1, speed: 0.006 },
-  { id: "gearE", teeth: 10, dir: 1, speed: 0.005 },
-];
+function draw() {
+  ctx.clearRect(0, 0, W, H);
 
-const gearAngles = gears.map(() => 0);
+  var rW = 52;
+  var rX = W / 2 - 80;
+  var fX = W / 2 + 78;
+  var gY = H - 40;
+  var wheelY = gY - rW;
 
-gears.forEach(({ id, teeth }) => {
-  drawGear(document.getElementById(id), teeth);
-});
+  var bbX = W / 2 - 8;
+  var bbY = wheelY - 4;
+  var sTX = W / 2 - 40;
+  var sTY = wheelY - 88;
+  var hTX = W / 2 + 48;
+  var hTY = wheelY - 80;
+  var hBX = W / 2 + 56;
+  var hBY = wheelY - 18;
 
-/* ─── Piston state ─── */
-const pistonT = { t: 0 };
+  // chain stays
+  ctx.beginPath();
+  ctx.moveTo(rX, wheelY);
+  ctx.lineTo(bbX, bbY);
+  ctx.strokeStyle = "#333";
+  ctx.lineWidth = 5;
+  ctx.lineCap = "round";
+  ctx.stroke();
 
-/* ─── Animation loop ─── */
-function animate(ts) {
-  /* gears */
-  gears.forEach(({ id, teeth, dir, speed }, i) => {
-    gearAngles[i] += dir * speed;
-    const canvas = document.getElementById(id);
-    const ctx = canvas.getContext("2d");
-    const W = canvas.width,
-      H = canvas.height;
-    ctx.clearRect(0, 0, W, H);
-    ctx.save();
-    ctx.translate(W / 2, H / 2);
-    ctx.rotate(gearAngles[i]);
-    ctx.translate(-W / 2, -H / 2);
-    drawGear(canvas, teeth);
-    ctx.restore();
-  });
+  ctx.beginPath();
+  ctx.moveTo(rX, wheelY);
+  ctx.lineTo(sTX, sTY + 8);
+  ctx.strokeStyle = "#333";
+  ctx.lineWidth = 4;
+  ctx.stroke();
 
-  /* pistons */
-  pistonT.t += 0.04;
-  const yA = Math.sin(pistonT.t) * 14; // 0..+14 up-down
-  const yB = Math.sin(pistonT.t + Math.PI) * 14; // opposite phase
+  // main tubes
+  ctx.beginPath();
+  ctx.moveTo(hBX, hBY);
+  ctx.lineTo(bbX, bbY);
+  ctx.strokeStyle = "#f5f5f5";
+  ctx.lineWidth = 7;
+  ctx.stroke();
 
-  setTranslateY("rodA1", yA);
-  setTranslateY("rodA2", yA);
-  setTranslateY("rodB1", yB);
-  setTranslateY("rodB2", yB);
+  ctx.beginPath();
+  ctx.moveTo(bbX, bbY);
+  ctx.lineTo(sTX, sTY);
+  ctx.strokeStyle = "#f5f5f5";
+  ctx.lineWidth = 6;
+  ctx.stroke();
 
-  requestAnimationFrame(animate);
+  ctx.beginPath();
+  ctx.moveTo(sTX, sTY);
+  ctx.lineTo(hTX, hTY);
+  ctx.strokeStyle = "#f5f5f5";
+  ctx.lineWidth = 5;
+  ctx.stroke();
+
+  // orange accent
+  ctx.beginPath();
+  ctx.moveTo(bbX, bbY);
+  ctx.lineTo(hBX - 8, hBY + 10);
+  ctx.strokeStyle = "#f97316";
+  ctx.lineWidth = 2;
+  ctx.stroke();
+
+  // head tube
+  ctx.beginPath();
+  ctx.moveTo(hTX, hTY);
+  ctx.lineTo(hBX, hBY);
+  ctx.strokeStyle = "#f97316";
+  ctx.lineWidth = 7;
+  ctx.stroke();
+
+  // fork
+  ctx.beginPath();
+  ctx.moveTo(hBX, hBY);
+  ctx.lineTo(fX, wheelY);
+  ctx.strokeStyle = "#555";
+  ctx.lineWidth = 5;
+  ctx.stroke();
+
+  // handlebar
+  ctx.beginPath();
+  ctx.moveTo(hTX - 16, hTY - 20);
+  ctx.lineTo(hTX + 10, hTY - 2);
+  ctx.strokeStyle = "#555";
+  ctx.lineWidth = 5;
+  ctx.stroke();
+
+  ctx.beginPath();
+  ctx.arc(hTX - 16, hTY - 20, 4, 0, Math.PI * 2);
+  ctx.fillStyle = "#f97316";
+  ctx.fill();
+
+  ctx.beginPath();
+  ctx.arc(hTX + 10, hTY - 2, 4, 0, Math.PI * 2);
+  ctx.fillStyle = "#f97316";
+  ctx.fill();
+
+  ctx.beginPath();
+  ctx.moveTo(hTX, hTY);
+  ctx.lineTo(hTX, hTY - 16);
+  ctx.strokeStyle = "#f5f5f5";
+  ctx.lineWidth = 5;
+  ctx.stroke();
+
+  // seat post
+  var spY = sTY - 24;
+  ctx.beginPath();
+  ctx.moveTo(sTX, sTY);
+  ctx.lineTo(sTX - 3, spY);
+  ctx.strokeStyle = "#555";
+  ctx.lineWidth = 5;
+  ctx.stroke();
+
+  // saddle
+  ctx.beginPath();
+  ctx.moveTo(sTX - 22, spY);
+  ctx.bezierCurveTo(sTX - 10, spY - 8, sTX + 10, spY - 8, sTX + 20, spY);
+  ctx.strokeStyle = "#f97316";
+  ctx.lineWidth = 3;
+  ctx.stroke();
+
+  // chainring
+  ctx.beginPath();
+  ctx.arc(bbX, bbY, 13, 0, Math.PI * 2);
+  ctx.strokeStyle = "#f97316";
+  ctx.lineWidth = 3;
+  ctx.stroke();
+
+  // cranks and pedals
+  var sides = [0, Math.PI];
+  for (var s = 0; s < sides.length; s++) {
+    var ang = pA + sides[s];
+    var cx2 = bbX + 17 * Math.cos(ang);
+    var cy2 = bbY + 17 * Math.sin(ang);
+
+    ctx.beginPath();
+    ctx.moveTo(bbX, bbY);
+    ctx.lineTo(cx2, cy2);
+    ctx.strokeStyle = "#f5f5f5";
+    ctx.lineWidth = 4;
+    ctx.stroke();
+
+    ctx.beginPath();
+    ctx.moveTo(
+      cx2 - 7 * Math.cos(ang + Math.PI / 2),
+      cy2 - 7 * Math.sin(ang + Math.PI / 2),
+    );
+    ctx.lineTo(
+      cx2 + 7 * Math.cos(ang + Math.PI / 2),
+      cy2 + 7 * Math.sin(ang + Math.PI / 2),
+    );
+    ctx.strokeStyle = "#f97316";
+    ctx.lineWidth = 3.5;
+    ctx.stroke();
+  }
+
+  // rear sprocket
+  ctx.beginPath();
+  ctx.arc(rX, wheelY, 8, 0, Math.PI * 2);
+  ctx.strokeStyle = "#f97316";
+  ctx.lineWidth = 2.5;
+  ctx.stroke();
+
+  // chain
+  ctx.beginPath();
+  ctx.moveTo(bbX + 13, bbY);
+  ctx.lineTo(rX + 8, wheelY);
+  ctx.strokeStyle = "#333";
+  ctx.lineWidth = 2.5;
+  ctx.stroke();
+
+  ctx.beginPath();
+  ctx.moveTo(bbX - 13, bbY + 2);
+  ctx.lineTo(rX - 8, wheelY + 2);
+  ctx.strokeStyle = "#2a2a2a";
+  ctx.lineWidth = 2;
+  ctx.stroke();
+
+  drawWheel(rX, wheelY, rW, wA);
+  drawWheel(fX, wheelY, rW, wA);
 }
 
-function setTranslateY(id, y) {
-  document.getElementById(id).style.transform = `translateY(${y}px)`;
+function loop() {
+  wA += 0.04;
+  pA += 0.034;
+  draw();
+  requestAnimationFrame(loop);
 }
 
-requestAnimationFrame(animate);
+requestAnimationFrame(loop);

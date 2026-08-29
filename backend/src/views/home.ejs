@@ -1,185 +1,208 @@
 <%- include('includes/header') %>
 
-<link rel="stylesheet" type="text/css" href="/css/home.css" />
+<link rel="stylesheet" href="/css/home.css" />
 
 <body>
-  <div class="navigation-menu">
-    <ul class="nav justify-content-center">
-      <li class="nav-item" style="cursor: pointer">
+  <div class="top-line"></div>
+
+  <nav class="navigation-menu">
+    <div class="nav-logo">
+      <div class="nav-logo-icon">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#0c0c0c" stroke-width="3" stroke-linecap="round">
+          <circle cx="6" cy="18" r="3"/>
+          <circle cx="18" cy="18" r="3"/>
+          <path d="M14 6h-3l-3 6h9l-3-6z"/>
+          <path d="M6 15l3-6 2 4"/>
+        </svg>
+      </div>x
+      <span class="nav-logo-text">Bike<span>Admin</span></span>
+    </div>
+
+    <ul class="nav">
+      <li class="nav-item">
         <a class="nav-link active" href="/admin">Home</a>
       </li>
       <% if (!user) { %>
-      <li class="nav-item" style="cursor: pointer">
+      <li class="nav-item">
         <a class="nav-link" href="/admin/signup">Signup</a>
       </li>
-      <li class="nav-item" style="cursor: pointer">
+      <li class="nav-item">
         <a class="nav-link" href="/admin/login">Login</a>
       </li>
       <% } else { %>
-      <li class="nav-item" style="cursor: pointer">
+      <li class="nav-item">
         <a class="nav-link" href="/admin/user/all">Users</a>
       </li>
-      <li class="nav-item" style="cursor: pointer">
+      <li class="nav-item">
         <a class="nav-link" href="/admin/bikes/all">Bikes</a>
       </li>
-      <li
-        class="nav-item"
-        style="cursor: pointer"
-        onclick="return confirm('Do you want to logout?')"
-      >
-        <a class="nav-link" href="/admin/logout">Logout</a>
+      <li class="nav-item" onclick="return confirm('Do you want to logout?')">
+        <a class="nav-link logout" href="/admin/logout">Logout</a>
       </li>
       <% } %>
     </ul>
-  </div>
 
-  <div class="panel">
-    <div class="corner-bl"></div>
-    <div class="corner-br"></div>
-
-    <!-- Header bar -->
-    <div class="panel-header">
-      <div class="dots">
-        <div class="dot dot-r"></div>
-        <div class="dot dot-o"></div>
-        <div class="dot dot-g"></div>
-      </div>
-      <div class="panel-id">ADMIN_PANEL_v2.4.1</div>
-      <div class="panel-stats">
-        <span>CPU: 34%</span>
-        <span>MEM: 61%</span>
-      </div>
+    <div class="nav-right">
+      <div class="status-dot"></div>
+      <span class="status-txt">Live</span>
+      <div class="nav-clock" id="clock">00:00:00</div>
     </div>
+  </nav>
 
-    <!-- Title -->
-    <div class="title-block">
-      <div class="subtitle">◆ Control Center ◆</div>
-      <div class="title">ADMIN<br /><span>PANEL</span></div>
-    </div>
+  <div class="layout">
 
-    <!-- Machinery stage -->
     <div class="stage">
-      <!-- Top row -->
-      <div class="row">
-        <!-- Left piston -->
-        <div class="piston-wrap" id="pistonA">
-          <div
-            class="piston-rod"
-            id="rodA1"
-            style="
-              height: 48px;
-              background: linear-gradient(to bottom, #f97316, #c2410c);
-            "
-          ></div>
-          <div class="piston-body"></div>
-          <div
-            class="piston-base"
-            id="rodA2"
-            style="
-              height: 32px;
-              background: linear-gradient(to bottom, #c2410c, #7c2d12);
-            "
-          ></div>
-        </div>
-
-        <!-- Gear large left -->
-        <canvas class="gear" id="gearA" width="100" height="100"></canvas>
-
-        <!-- Center bolt -->
-        <div class="bolt-wrap">
-          <div class="pulse-ring"></div>
-          <div class="bolt"></div>
-        </div>
-
-        <!-- Gear large right -->
-        <canvas class="gear" id="gearB" width="100" height="100"></canvas>
-
-        <!-- Right piston -->
-        <div class="piston-wrap" id="pistonB">
-          <div
-            class="piston-rod"
-            id="rodB1"
-            style="
-              height: 48px;
-              background: linear-gradient(to bottom, #f97316, #c2410c);
-            "
-          ></div>
-          <div class="piston-body"></div>
-          <div
-            class="piston-base"
-            id="rodB2"
-            style="
-              height: 32px;
-              background: linear-gradient(to bottom, #c2410c, #7c2d12);
-            "
-          ></div>
-        </div>
-      </div>
-
-      <!-- Connector -->
-      <div class="connector" style="margin: 8px 0"></div>
-
-      <!-- Bottom row -->
-      <div class="row">
-        <canvas class="gear" id="gearC" width="52" height="52"></canvas>
-
-        <div class="chain" id="chainL"></div>
-
-        <canvas class="gear" id="gearD" width="68" height="68"></canvas>
-
-        <div class="chain" id="chainR"></div>
-
-        <canvas class="gear" id="gearE" width="52" height="52"></canvas>
-      </div>
-
-      <!-- Readouts -->
-      <div class="readouts">
-        <div class="readout">
-          <div class="readout-label">Engine</div>
-          <div class="readout-value">ONLINE</div>
-        </div>
-        <div class="readout">
-          <div class="readout-label">Power</div>
-          <div class="readout-value">94%</div>
-        </div>
-        <div class="readout">
-          <div class="readout-label">Status</div>
-          <div class="readout-value">ACTIVE</div>
-        </div>
+      <div class="br tl"></div>
+      <div class="br tr"></div>
+      <div class="br bl"></div>
+      <div class="br br2"></div>
+      <div class="stage-label">Control Center</div>
+      <div class="stage-title">BIKE<br><em>STORE</em></div>
+      <canvas id="bikeCanvas" width="480" height="240"></canvas>
+      <div class="road-wrap">
+        <div class="road-dashes"></div>
+        <div class="road-base"></div>
       </div>
     </div>
 
-    <!-- Stats bar -->
-    <div class="stats-bar">
-      <div class="stat">
-        <div class="stat-label">Active Bikes</div>
-        <div class="stat-value">142</div>
-        <div class="stat-delta">+3 today</div>
+    <div class="sidebar">
+
+      <div class="sb-section">
+        <div class="sb-title">Users</div>
+
+        <div class="stat-card c-green">
+          <div class="sc-left">
+            <div class="sc-icon green">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2.5" stroke-linecap="round">
+                <circle cx="12" cy="8" r="4"/>
+                <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/>
+              </svg>
+            </div>
+            <div>
+              <div class="sc-name">Active Users</div>
+              <div class="sc-bar"><div class="sc-fill green-fill"></div></div>
+            </div>
+          </div>
+          <div>
+            <div class="sc-val"><%= userStats.active %></div>
+            <div class="sc-sub">online</div>
+          </div>
+        </div>
+
+        <div class="stat-card c-red">
+          <div class="sc-left">
+            <div class="sc-icon red">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2.5" stroke-linecap="round">
+                <circle cx="12" cy="8" r="4"/>
+                <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/>
+                <line x1="18" y1="10" x2="22" y2="14"/>
+                <line x1="22" y1="10" x2="18" y2="14"/>
+              </svg>
+            </div>
+            <div>
+              <div class="sc-name">Blocked</div>
+              <div class="sc-bar"><div class="sc-fill red-fill"></div></div>
+            </div>
+          </div>
+          <div>
+            <div class="sc-val"><%= userStats.blocked %></div>
+            <div class="sc-sub">restricted</div>
+          </div>
+        </div>
+
+        <div class="stat-card c-muted">
+          <div class="sc-left">
+            <div class="sc-icon muted">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#888" stroke-width="2.5" stroke-linecap="round">
+                <circle cx="12" cy="8" r="4"/>
+                <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/>
+                <line x1="5" y1="5" x2="19" y2="19"/>
+              </svg>
+            </div>
+            <div>
+              <div class="sc-name">Deleted</div>
+              <div class="sc-bar"><div class="sc-fill muted-fill"></div></div>
+            </div>
+          </div>
+          <div>
+            <div class="sc-val"><%= userStats.deleted %></div>
+            <div class="sc-sub">removed</div>
+          </div>
+        </div>
       </div>
-      <div class="stat">
-        <div class="stat-label">Registered Users</div>
-        <div class="stat-value">2,891</div>
-        <div class="stat-delta">+18 today</div>
+
+      <div class="sb-section">
+        <div class="sb-title">Bikes</div>
+
+        <div class="stat-card c-green">
+          <div class="sc-left">
+            <div class="sc-icon green">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2.5" stroke-linecap="round">
+                <circle cx="6" cy="18" r="3"/>
+                <circle cx="18" cy="18" r="3"/>
+                <path d="M14 6h-3l-3 6h9l-3-6z"/>
+                <path d="M6 15l3-6 2 4"/>
+              </svg>
+            </div>
+            <div>
+              <div class="sc-name">Active</div>
+              <div class="sc-bar"><div class="sc-fill green-fill" style="width:71%"></div></div>
+            </div>
+          </div>
+          <div>
+            <div class="sc-val"><%= bikeStats.active %></div>
+            <div class="sc-sub">live</div>
+          </div>
+        </div>
+
+        <div class="stat-card c-yellow">
+          <div class="sc-left">
+            <div class="sc-icon yellow">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#eab308" stroke-width="2.5" stroke-linecap="round">
+                <path d="M12 9v4"/>
+                <path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/>
+                <line x1="12" y1="17" x2="12.01" y2="17"/>
+              </svg>
+            </div>
+            <div>
+              <div class="sc-name">Unlisted</div>
+              <div class="sc-bar"><div class="sc-fill yellow-fill"></div></div>
+            </div>
+          </div>
+          <div>
+            <div class="sc-val"><%= bikeStats.unlisted %></div>
+            <div class="sc-sub">draft</div>
+          </div>
+        </div>
+
+        <div class="stat-card c-muted">
+          <div class="sc-left">
+            <div class="sc-icon muted">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#888" stroke-width="2.5" stroke-linecap="round">
+                <polyline points="9 11 12 14 22 4"/>
+                <path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/>
+              </svg>
+            </div>
+            <div>
+              <div class="sc-name">Sold</div>
+              <div class="sc-bar"><div class="sc-fill muted-fill" style="width:44%"></div></div>
+            </div>
+          </div>
+          <div>
+            <div class="sc-val"><%= bikeStats.sold %></div>
+            <div class="sc-sub">all time</div>
+          </div>
+        </div>
       </div>
-      <div class="stat">
-        <div class="stat-label">Trips Today</div>
-        <div class="stat-value">374</div>
-        <div class="stat-delta">+47 today</div>
-      </div>
-      <div class="stat">
-        <div class="stat-label">Revenue</div>
-        <div class="stat-value">$8,240</div>
-        <div class="stat-delta">+$320 today</div>
-      </div>
+
     </div>
   </div>
 
-  <!-- Ticker -->
   <div class="ticker-wrap">
     <div class="ticker-track" id="ticker"></div>
   </div>
 
-  <script type="text/javascript" src="/js/home.js"></script>
+  <script src="/js/home.js"></script>
 </body>
 
 <%- include('includes/footer') %>

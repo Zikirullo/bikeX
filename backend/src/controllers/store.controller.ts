@@ -23,7 +23,9 @@ bikeXController.goHome = async (req: ExtendedRequest, res: Response) => {
     console.log("goHome");
     const bikeStats = await bikesService.bikeStatistics();
     const userStats = await userService.userStatistics();
-    console.log("bikeStats", bikeStats);
+    console.log("bikeStats passes->", bikeStats);
+    console.log("userStats passes->", userStats);
+
     res.render("home", { bikeStats, userStats });
   } catch (err) {
     console.log("Error, goHome", err);
