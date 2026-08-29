@@ -7,6 +7,7 @@ import {
   UserInput,
   UserUpdateInput,
 } from "../libs/types/user";
+import bikeModel from "../schema/bike.model";
 import userModel from "../schema/user.model";
 import * as bcrypt from "bcryptjs";
 
@@ -15,6 +16,23 @@ class UserService {
 
   constructor() {
     this.UserModel = userModel;
+  }
+
+  public async userStatistics(): Promise<{
+    active: number;
+    blocked: number;
+    deleted: number;
+  }> {
+    const [active, blocked, deleted] = await Promise.all([
+      this.UserModel.countDocuments({ userStatus: UserStatus.ACTIVE }),
+      this.UserModel.countDocuments({ userStatus: UserStatus.BLOCK }),
+      this.UserModel.countDocuments({ userStatus: UserStatus.DELETED }),
+    ]);
+    return {
+      active,
+      blocked,
+      deleted,
+    };
   }
   // Admin
   public async processSignup(input: UserInput): Promise<User> {
